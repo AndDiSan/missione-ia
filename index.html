@@ -1,0 +1,3091 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Percorso interattivo per bambini, ragazzi e adulti: che cos'è l'IA, come impara, perché può sbagliare, come verificarla e come funziona dentro." name="description"/>
+<title>Missione IA — Capire, verificare e comunicare con l'intelligenza artificiale</title>
+<style>
+    :root {
+      --bg: #eef6ff;
+      --surface: #ffffff;
+      --surface-soft: #f7fbff;
+      --text: #17233b;
+      --muted: #52627a;
+      --primary: #2457d6;
+      --primary-dark: #173d9b;
+      --primary-soft: #e6efff;
+      --accent: #f59e0b;
+      --accent-soft: #fff4d6;
+      --success: #147d55;
+      --success-soft: #e5f8ef;
+      --danger: #b42318;
+      --danger-soft: #ffebe9;
+      --border: #b9c9df;
+      --shadow: 0 12px 30px rgba(23, 61, 155, 0.10);
+      --base-size: 18px;
+      --radius: 18px;
+      --primary-button-text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: var(--base-size);
+      line-height: 1.65;
+    }
+
+    body.high-contrast {
+      --bg: #000000;
+      --surface: #101010;
+      --surface-soft: #181818;
+      --text: #ffffff;
+      --muted: #f2f2f2;
+      --primary: #78a7ff;
+      --primary-dark: #b9d0ff;
+      --primary-soft: #172c52;
+      --accent: #ffd84d;
+      --accent-soft: #3d3400;
+      --success: #7df0b9;
+      --success-soft: #06351f;
+      --danger: #ff8c82;
+      --danger-soft: #42100c;
+      --border: #ffffff;
+      --shadow: none;
+      --primary-button-text: #000000;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button,
+    input,
+    textarea,
+    select,
+    summary {
+      outline-offset: 4px;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible,
+    summary:focus-visible {
+      outline: 4px solid var(--accent);
+    }
+
+    button {
+      min-height: 48px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.65rem 1rem;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    button[aria-pressed="true"],
+    button.active,
+    .primary-button {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: var(--primary-button-text);
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -5rem;
+      z-index: 1000;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      background: var(--text);
+      color: var(--surface);
+      font-weight: 800;
+    }
+
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--border);
+      background: var(--surface);
+    }
+
+    .header-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      min-width: 0;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      flex: 0 0 48px;
+      border-radius: 14px;
+      background: var(--primary-soft);
+      font-size: 1.8rem;
+    }
+
+    .brand-title {
+      margin: 0;
+      color: var(--primary-dark);
+      font-size: 1.2rem;
+      line-height: 1.2;
+    }
+
+    .brand-subtitle {
+      margin: 0.15rem 0 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.25;
+    }
+
+    .header-tools {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.45rem;
+    }
+
+    .tool-button {
+      min-width: 48px;
+      padding: 0.5rem 0.75rem;
+    }
+
+    .progress-wrap {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 0 1rem 0.75rem;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.3rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      background: var(--surface-soft);
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      background: var(--primary);
+      transition: width 250ms ease;
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
+      gap: 1.25rem;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 1.25rem;
+    }
+
+    .chapter-nav {
+      align-self: start;
+      position: sticky;
+      top: 136px;
+      max-height: calc(100vh - 160px);
+      overflow-y: auto;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .chapter-nav h2 {
+      margin: 0;
+      padding: 1rem 1rem 0.45rem;
+      color: var(--primary-dark);
+      font-size: 1.05rem;
+    }
+
+    .chapter-list {
+      display: grid;
+      gap: 0.35rem;
+      margin: 0;
+      padding: 0.5rem;
+      list-style: none;
+    }
+
+    .chapter-button {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      align-items: center;
+      width: 100%;
+      min-height: 58px;
+      border-color: transparent;
+      padding: 0.55rem;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .chapter-button .chapter-number {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 0.9rem;
+    }
+
+    .chapter-button.active .chapter-number {
+      background: #ffffff;
+      color: var(--primary-dark);
+    }
+
+    .chapter-button small {
+      display: block;
+      color: inherit;
+      opacity: 0.82;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .main-panel {
+      min-width: 0;
+    }
+
+    .lesson {
+      display: none;
+      min-height: 640px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: clamp(1rem, 3vw, 2.2rem);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .lesson.active {
+      display: block;
+      animation: lesson-in 220ms ease;
+    }
+
+    @keyframes lesson-in {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .lesson-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+      border-radius: 999px;
+      padding: 0.25rem 0.7rem;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .lesson h1 {
+      margin: 0 0 0.8rem;
+      color: var(--primary-dark);
+      font-size: clamp(1.75rem, 4vw, 2.7rem);
+      line-height: 1.15;
+    }
+
+    .lesson h2 {
+      margin-top: 2rem;
+      color: var(--primary-dark);
+      font-size: 1.35rem;
+      line-height: 1.25;
+    }
+
+    .lesson h3 {
+      color: var(--primary-dark);
+      font-size: 1.1rem;
+    }
+
+    .lead {
+      max-width: 76ch;
+      margin-top: 0;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .kid-box,
+    .teacher-box,
+    .mission-box,
+    .warning-box,
+    .success-box {
+      margin: 1.25rem 0;
+      border: 2px solid var(--border);
+      border-left-width: 8px;
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+      background: var(--surface-soft);
+    }
+
+    .kid-box {
+      border-left-color: var(--primary);
+    }
+
+    .teacher-box {
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .mission-box {
+      border-left-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .warning-box {
+      border-left-color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .success-box {
+      border-left-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .box-title {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--primary-dark);
+      font-weight: 900;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+
+    .concept-card {
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem;
+      background: var(--surface-soft);
+    }
+
+    .concept-card .emoji {
+      font-size: 2rem;
+    }
+
+    .concept-card h3 {
+      margin: 0.4rem 0;
+    }
+
+    .concept-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    details {
+      margin: 1.25rem 0;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface-soft);
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 0.9rem 1rem;
+      color: var(--primary-dark);
+      font-weight: 900;
+    }
+
+    details > div {
+      padding: 0 1rem 1rem;
+    }
+
+    .demo-panel {
+      margin: 1.4rem 0;
+      border: 2px dashed var(--primary);
+      border-radius: 18px;
+      padding: 1.1rem;
+      background: var(--primary-soft);
+    }
+
+    .demo-panel h2,
+    .demo-panel h3 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem;
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin: 0.8rem 0;
+    }
+
+    .token-output {
+      min-height: 72px;
+      margin-top: 0.85rem;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 0.7rem;
+      background: var(--surface);
+    }
+
+    .token {
+      display: inline-block;
+      margin: 0.2rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 0.3rem 0.55rem;
+      background: var(--accent-soft);
+      color: var(--text);
+      font-family: Consolas, monospace;
+      font-weight: 800;
+    }
+
+    .token.subword-token {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .token.number-token {
+      border-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .vector-bars {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .vector-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 190px) minmax(0, 1fr) 60px;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .bar-track {
+      height: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      background: var(--surface);
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--primary);
+      transition: width 220ms ease;
+    }
+
+    .sentence-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 1rem 0;
+    }
+
+    .word-chip {
+      min-height: 44px;
+      border-radius: 10px;
+      padding: 0.45rem 0.65rem;
+      font-weight: 800;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .word-chip.related {
+      border-color: var(--success);
+      background: var(--success-soft);
+      color: var(--text);
+      transform: translateY(-2px);
+    }
+
+    .word-chip.target {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(38px, 1fr));
+      max-width: 420px;
+      gap: 0.4rem;
+      margin: 1rem auto;
+    }
+
+    .matrix-cell {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      font-family: Consolas, monospace;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .probability-list {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .probability-item {
+      display: grid;
+      grid-template-columns: 100px minmax(0, 1fr) 60px;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .probability-fill {
+      height: 100%;
+      background: var(--primary);
+      transition: width 220ms ease;
+    }
+
+
+    .softmax-simulator {
+      display: grid;
+      grid-template-columns: minmax(250px, 390px) minmax(0, 1fr);
+      align-items: center;
+      gap: 1.35rem;
+      margin-top: 1rem;
+    }
+
+    .wheel-column {
+      display: grid;
+      justify-items: center;
+      gap: 0.75rem;
+    }
+
+    .wheel-stage {
+      position: relative;
+      width: min(100%, 370px);
+      aspect-ratio: 1;
+      margin-inline: auto;
+      filter: drop-shadow(0 10px 14px rgba(26, 54, 93, 0.16));
+    }
+
+    .wheel-stage::before {
+      content: "";
+      position: absolute;
+      z-index: 4;
+      top: -2px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-right: 18px solid transparent;
+      border-left: 18px solid transparent;
+      border-top: 38px solid var(--danger);
+      transform: translateX(-50%);
+      filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.22));
+    }
+
+    .softmax-wheel {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      transform: rotate(0deg);
+      transform-origin: 50% 50%;
+      transition: transform 3.8s cubic-bezier(0.12, 0.72, 0.08, 1);
+    }
+
+    .wheel-rim {
+      fill: none;
+      stroke: var(--primary-dark);
+      stroke-width: 8;
+    }
+
+    .wheel-slice {
+      stroke: var(--surface);
+      stroke-width: 4;
+    }
+
+    .wheel-slice[data-wheel-key="cuccia"] {
+      fill: var(--primary);
+    }
+
+    .wheel-slice[data-wheel-key="casa"] {
+      fill: var(--accent);
+    }
+
+    .wheel-slice[data-wheel-key="nuvola"] {
+      fill: var(--success);
+    }
+
+    .wheel-slice-label {
+      fill: #ffffff;
+      stroke: rgba(0, 0, 0, 0.45);
+      stroke-width: 3px;
+      paint-order: stroke fill;
+      font-size: 17px;
+      font-weight: 900;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+    }
+
+    .wheel-hub {
+      position: absolute;
+      z-index: 3;
+      inset: 50% auto auto 50%;
+      display: grid;
+      place-items: center;
+      width: 88px;
+      height: 88px;
+      border: 6px solid var(--primary-dark);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--primary-dark);
+      font-weight: 900;
+      text-align: center;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    }
+
+    .wheel-result {
+      min-height: 52px;
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem;
+      background: var(--surface);
+      color: var(--text);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .wheel-history {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.45rem;
+      min-height: 34px;
+      width: 100%;
+    }
+
+    .wheel-history-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .wheel-history-chip[data-result="cuccia"] {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .wheel-history-chip[data-result="casa"] {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .wheel-history-chip[data-result="nuvola"] {
+      border-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .temperature-readout {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .probability-item[data-option="cuccia"] .probability-fill {
+      background: var(--primary);
+    }
+
+    .probability-item[data-option="casa"] .probability-fill {
+      background: var(--accent);
+    }
+
+    .probability-item[data-option="nuvola"] .probability-fill {
+      background: var(--success);
+    }
+
+    .probability-key {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .probability-key::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    .probability-item[data-option="casa"] .probability-key::before {
+      background: var(--accent);
+    }
+
+    .probability-item[data-option="nuvola"] .probability-key::before {
+      background: var(--success);
+    }
+
+    .puzzle-options,
+    .quiz-options {
+      display: grid;
+      gap: 0.65rem;
+      margin: 1rem 0;
+    }
+
+    .option-button {
+      text-align: left;
+    }
+
+    .option-button.correct {
+      border-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .option-button.incorrect {
+      border-color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .feedback {
+      min-height: 52px;
+      margin-top: 0.75rem;
+      border-radius: 12px;
+      padding: 0.75rem;
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .modalities {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin: 1rem 0;
+    }
+
+    .modality-button {
+      min-height: 100px;
+      padding: 0.8rem;
+    }
+
+    .modality-button span {
+      display: block;
+      font-size: 2rem;
+    }
+
+    .shared-space {
+      margin: 1rem 0;
+      border: 3px solid var(--primary);
+      border-radius: 50%;
+      padding: 2rem 1rem;
+      background: var(--primary-soft);
+      text-align: center;
+    }
+
+    .agent-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.55rem;
+      margin: 1rem 0;
+    }
+
+    .agent-step {
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 0.8rem 0.5rem;
+      background: var(--surface);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .agent-step.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+    }
+
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .prompt-preview {
+      min-height: 180px;
+      white-space: pre-wrap;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      background: var(--surface);
+      font-family: Consolas, monospace;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .bad-example,
+    .good-example {
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem;
+    }
+
+    .bad-example {
+      border-left: 8px solid var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .good-example {
+      border-left: 8px solid var(--success);
+      background: var(--success-soft);
+    }
+
+    .quiz-question {
+      margin: 1.2rem 0;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem;
+      background: var(--surface-soft);
+    }
+
+    .quiz-question h3 {
+      margin-top: 0;
+    }
+
+    .lesson-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      border-top: 2px solid var(--border);
+      padding-top: 1rem;
+    }
+
+    .lesson-controls button {
+      min-width: 150px;
+    }
+
+    .keyboard-help {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .mobile-header-bar,
+    .mobile-drawer-heading,
+    .mobile-drawer-tools,
+    .mobile-drawer-overlay {
+      display: none;
+    }
+
+    /* On desktop this wrapper has no visual effect. On mobile it becomes
+       the independently scrollable area of the side menu. */
+    .mobile-drawer-scroll {
+      display: contents;
+    }
+
+    @media (max-width: 1000px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .chapter-nav {
+        position: static;
+        max-height: none;
+      }
+
+      .chapter-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .chapter-button {
+        grid-template-columns: 34px 1fr;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      body.mobile-menu-open {
+        overflow: hidden;
+      }
+
+      .app-header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 220;
+        min-height: 62px;
+        border-bottom: 2px solid var(--border);
+        background: var(--surface);
+      }
+
+      .header-main,
+      .progress-wrap {
+        display: none;
+      }
+
+      .mobile-header-bar {
+        position: relative;
+        display: grid;
+        grid-template-columns: 48px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.65rem;
+        min-height: 62px;
+        padding: 0.45rem 0.75rem 0.55rem;
+      }
+
+      .mobile-menu-button {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        min-width: 48px;
+        height: 48px;
+        padding: 0;
+        border-color: var(--primary);
+        background: var(--primary-soft);
+        color: var(--primary-dark);
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      .mobile-header-text {
+        min-width: 0;
+      }
+
+      .mobile-header-title,
+      .mobile-header-lesson {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .mobile-header-title {
+        color: var(--primary-dark);
+        font-size: 1rem;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .mobile-header-lesson {
+        margin-top: 0.1rem;
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 700;
+        line-height: 1.15;
+      }
+
+      .mobile-header-count {
+        color: var(--primary-dark);
+        font-size: 0.78rem;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .mobile-progress-track {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 4px;
+        overflow: hidden;
+        background: var(--surface-soft);
+      }
+
+      .mobile-progress-bar {
+        width: 0;
+        height: 100%;
+        background: var(--primary);
+        transition: width 250ms ease;
+      }
+
+      .app-shell {
+        display: block;
+        padding: calc(62px + 0.8rem) 0.75rem 1rem;
+      }
+
+      .chapter-nav {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 320;
+        display: flex;
+        flex-direction: column;
+        width: min(88vw, 370px);
+        height: 100vh;
+        height: 100svh;
+        height: 100dvh;
+        max-height: 100vh;
+        max-height: 100svh;
+        max-height: 100dvh;
+        overflow: hidden;
+        overscroll-behavior: none;
+        border-width: 0 2px 0 0;
+        border-radius: 0 18px 18px 0;
+        box-shadow: 12px 0 32px rgba(23, 61, 155, 0.22);
+        transform: translateX(-105%);
+        visibility: hidden;
+        transition: transform 220ms ease, visibility 220ms ease;
+      }
+
+      .chapter-nav.mobile-open {
+        transform: translateX(0);
+        visibility: visible;
+      }
+
+      .mobile-drawer-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+        display: block;
+        border: 0;
+        background: rgba(8, 20, 45, 0.55);
+      }
+
+      .mobile-drawer-overlay[hidden] {
+        display: none;
+      }
+
+      .mobile-drawer-heading {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        border-bottom: 2px solid var(--border);
+        padding: 0.7rem 0.75rem;
+        background: var(--surface);
+      }
+
+      .mobile-drawer-heading strong {
+        display: block;
+        color: var(--primary-dark);
+        font-size: 1rem;
+      }
+
+      .mobile-drawer-heading small {
+        display: block;
+        margin-top: 0.1rem;
+        color: var(--muted);
+        font-size: 0.74rem;
+      }
+
+      .mobile-drawer-close {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        min-width: 48px;
+        height: 48px;
+        padding: 0;
+        font-size: 1.4rem;
+        line-height: 1;
+      }
+
+      .mobile-drawer-scroll {
+        display: block;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+        scrollbar-gutter: stable;
+      }
+
+      .mobile-drawer-tools {
+        display: block;
+        border-bottom: 2px solid var(--border);
+        padding: 0.85rem 0.75rem 0.95rem;
+        background: var(--surface-soft);
+      }
+
+      .mobile-drawer-tools h2 {
+        margin: 0 0 0.6rem;
+        padding: 0;
+        font-size: 0.95rem;
+      }
+
+      .mobile-tool-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+      }
+
+      .mobile-tool-grid button {
+        width: 100%;
+        min-width: 0;
+        min-height: 46px;
+        padding: 0.5rem 0.4rem;
+        font-size: 0.86rem;
+      }
+
+      .chapter-nav > h2 {
+        padding-top: 0.85rem;
+      }
+
+      .chapter-list {
+        grid-template-columns: 1fr;
+      }
+
+      .concept-grid,
+      .modalities,
+      .agent-flow,
+      .prompt-grid,
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .softmax-simulator {
+        grid-template-columns: 1fr;
+      }
+
+      .wheel-stage {
+        width: min(100%, 330px);
+      }
+
+      .vector-row,
+      .probability-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .lesson-controls {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .lesson-controls button {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      .app-header,
+      .chapter-nav,
+      .lesson-controls,
+      .demo-panel button,
+      .header-tools,
+      .mobile-header-bar,
+      .mobile-drawer-overlay,
+      .mobile-drawer-heading,
+      .mobile-drawer-tools {
+        display: none !important;
+      }
+
+      body {
+        background: #ffffff;
+        color: #000000;
+      }
+
+      .app-shell {
+        display: block;
+        max-width: none;
+        padding: 0;
+      }
+
+      .lesson {
+        display: block !important;
+        min-height: auto;
+        margin-bottom: 1rem;
+        break-inside: avoid;
+        border: 1px solid #999999;
+        box-shadow: none;
+      }
+    }
+  
+
+    .chapter-group-label {
+      margin: 1rem 0 0.35rem;
+      border-top: 2px solid var(--border);
+      padding: 0.85rem 0.4rem 0.2rem;
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .chapter-group-label:first-child {
+      margin-top: 0;
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .lesson-paths {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+
+    .path-card {
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem;
+      background: var(--surface-soft);
+    }
+
+    .path-card h2 {
+      margin-top: 0;
+    }
+
+    .simple-table-wrap {
+      overflow-x: auto;
+      margin: 1.2rem 0;
+    }
+
+    .simple-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+    }
+
+    .simple-table th,
+    .simple-table td {
+      border: 2px solid var(--border);
+      padding: 0.75rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .simple-table th {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+    }
+
+    .source-display {
+      min-height: 110px;
+      margin-top: 0.8rem;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      background: var(--surface);
+    }
+
+    .safety-rule {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.7rem;
+      align-items: start;
+      margin: 0.65rem 0;
+    }
+
+    .safety-rule .emoji {
+      font-size: 1.5rem;
+    }
+
+    .mini-checklist {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+
+    .mini-checklist li {
+      margin: 0.5rem 0;
+    }
+
+    @media (max-width: 760px) {
+      .lesson-paths {
+        grid-template-columns: 1fr;
+      }
+    }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#contenuto">Vai direttamente alla lezione</a>
+<header class="app-header">
+<div class="mobile-header-bar">
+<button aria-controls="mobileDrawer" aria-expanded="false" aria-label="Apri il menu con tappe e controlli" class="mobile-menu-button" id="mobileMenuButton" type="button">☰</button>
+<div class="mobile-header-text">
+<span class="mobile-header-title">Missione IA</span>
+<span class="mobile-header-lesson" id="mobileProgressTitle">Introduzione</span>
+</div>
+<span class="mobile-header-count" id="mobileProgressText">1 di 16</span>
+<div aria-hidden="true" class="mobile-progress-track">
+<div class="mobile-progress-bar" id="mobileProgressBar"></div>
+</div>
+</div>
+<div class="header-main">
+<div class="brand">
+<div aria-hidden="true" class="brand-icon">🚀</div>
+<div>
+<p class="brand-title">Missione IA</p>
+<p class="brand-subtitle">Un viaggio per capire, fare domande e guidare le macchine</p>
+</div>
+</div>
+<div aria-label="Strumenti di accessibilità" class="header-tools">
+<button aria-label="Riduci la dimensione del testo" class="tool-button" id="decreaseText" title="Riduci il testo" type="button">A−</button>
+<button aria-label="Aumenta la dimensione del testo" class="tool-button" id="increaseText" title="Ingrandisci il testo" type="button">A+</button>
+<button aria-pressed="false" class="tool-button" id="contrastToggle" type="button">◐ Contrasto</button>
+<button class="tool-button" id="speakButton" type="button">🔊 Ascolta</button>
+<button class="tool-button" id="stopSpeakButton" type="button">⏹ Ferma</button>
+</div>
+</div>
+<div class="progress-wrap">
+<div class="progress-labels">
+<span id="progressTitle">Introduzione</span>
+<span id="progressText">1 di 16</span>
+</div>
+<div aria-label="Avanzamento del percorso" aria-valuemax="16" aria-valuemin="1" aria-valuenow="1" class="progress-track" role="progressbar">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+</div>
+</header>
+<div class="mobile-drawer-overlay" id="mobileDrawerOverlay" hidden></div>
+<div class="app-shell">
+<nav aria-label="Capitoli del percorso" class="chapter-nav" id="mobileDrawer">
+<div class="mobile-drawer-heading">
+<div>
+<strong>🚀 Missione IA</strong>
+<small>Tappe e strumenti di lettura</small>
+</div>
+<button aria-label="Chiudi il menu" class="mobile-drawer-close" id="mobileMenuClose" type="button">✕</button>
+</div>
+<div class="mobile-drawer-scroll" id="mobileDrawerScroll">
+<div aria-label="Strumenti di accessibilità per dispositivi mobili" class="mobile-drawer-tools">
+<h2>⚙️ Controlli</h2>
+<div class="mobile-tool-grid">
+<button aria-label="Riduci la dimensione del testo" id="decreaseTextMobile" type="button">A− Riduci</button>
+<button aria-label="Aumenta la dimensione del testo" id="increaseTextMobile" type="button">A+ Ingrandisci</button>
+<button aria-pressed="false" id="contrastToggleMobile" type="button">◐ Contrasto</button>
+<button id="speakButtonMobile" type="button">🔊 Ascolta</button>
+<button id="stopSpeakButtonMobile" type="button">⏹ Ferma</button>
+</div>
+</div>
+<h2>🗺️ Mappa del viaggio</h2>
+<ol class="chapter-list" id="chapterList"><li class="chapter-group-label">🚀 Orientamento</li><li><button class="chapter-button active" data-lesson="0" type="button"><span class="chapter-number">0</span><span>Partiamo<small>Perché studiare comunicazione e verifica</small></span></button></li><li class="chapter-group-label">🧭 Regole essenziali</li><li><button class="chapter-button" data-lesson="1" type="button"><span class="chapter-number">1</span><span>Che cos'è l'IA<small>Una macchina, non una persona</small></span></button></li><li><button class="chapter-button" data-lesson="2" type="button"><span class="chapter-number">2</span><span>Comunicare bene<small>Obiettivo, contesto e regole</small></span></button></li><li><button class="chapter-button" data-lesson="3" type="button"><span class="chapter-number">3</span><span>Dati e sbilanciamenti<small>La scuola degli esempi</small></span></button></li><li><button class="chapter-button" data-lesson="4" type="button"><span class="chapter-number">4</span><span>Errori e verifica<small>Una frase elegante può essere falsa</small></span></button></li><li><button class="chapter-button" data-lesson="5" type="button"><span class="chapter-number">5</span><span>Conoscenza e privacy<small>Memoria, strumenti e dati personali</small></span></button></li><li class="chapter-group-label">🔬 Dentro il motore</li><li><button class="chapter-button" data-lesson="6" type="button"><span class="chapter-number">6</span><span>Token<small>I mattoncini delle parole</small></span></button></li><li><button class="chapter-button" data-lesson="7" type="button"><span class="chapter-number">7</span><span>Embedding<small>La mappa dei significati</small></span></button></li><li><button class="chapter-button" data-lesson="8" type="button"><span class="chapter-number">8</span><span>Attention<small>Il riflettore del contesto</small></span></button></li><li><button class="chapter-button" data-lesson="9" type="button"><span class="chapter-number">9</span><span>Transformer<small>Matrici, pesi e allenamento</small></span></button></li><li><button class="chapter-button" data-lesson="10" type="button"><span class="chapter-number">10</span><span>Inferenza<small>La ruota delle possibilità</small></span></button></li><li><button class="chapter-button" data-lesson="11" type="button"><span class="chapter-number">11</span><span>Reasoning<small>Pianificare, controllare, correggere</small></span></button></li><li><button class="chapter-button" data-lesson="12" type="button"><span class="chapter-number">12</span><span>Immagini e suoni<small>Pixel, voce e ritmo</small></span></button></li><li><button class="chapter-button" data-lesson="13" type="button"><span class="chapter-number">13</span><span>Multimodalità<small>Un sistema, molti sensi</small></span></button></li><li class="chapter-group-label">🤖 Azioni e responsabilità</li><li><button class="chapter-button" data-lesson="14" type="button"><span class="chapter-number">14</span><span>Agenti<small>Dalle parole alle azioni</small></span></button></li><li><button class="chapter-button" data-lesson="15" type="button"><span class="chapter-number">★</span><span>Missione finale<small>Quiz e diploma</small></span></button></li></ol>
+</div>
+</nav>
+<main class="main-panel" id="contenuto" tabindex="-1">
+
+
+
+
+
+
+
+
+
+
+
+
+<section aria-labelledby="title-0" class="lesson active" data-title="Partiamo" id="lesson-0">
+<span class="lesson-kicker">Tappa 0 · Inizio della missione</span>
+<h1 id="title-0">🚀 Capire l'IA per usarla senza farsi guidare da lei</h1>
+<p class="lead">L'intelligenza artificiale può aiutarci a studiare, creare e risolvere problemi. Ma una risposta elegante può essere sbagliata e un'istruzione vaga può produrre azioni indesiderate. Per questo dobbiamo imparare sia a usarla sia a capire, almeno un poco, come funziona.</p>
+<div class="kid-box">
+<span class="box-title">🧒 Spiegato come a un bambino</span>
+    Immagina un aiutante velocissimo che ha osservato tantissimi esempi. Sa riconoscere schemi e costruire risposte, ma non legge nella tua mente, non conosce automaticamente tutta la verità e non diventa responsabile al posto tuo.
+  </div>
+<div class="lesson-paths">
+<article class="path-card">
+<h2>🧭 Prima parte: imparare a guidarla</h2>
+<p>Scopriremo che cos'è davvero l'IA, da dove impara, perché può sbagliare, come controllare le risposte e quali informazioni non dobbiamo condividere.</p>
+<button class="primary-button jump-button" data-jump="1" type="button">Inizia dalle regole essenziali →</button>
+</article>
+<article class="path-card">
+<h2>🔬 Seconda parte: guardare nel motore</h2>
+<p>Token, embedding, Attention, pesi, probabilità, reasoning, immagini, audio, multimodalità e agenti rimangono disponibili con esempi e laboratori.</p>
+<button class="jump-button" data-jump="6" type="button">Vai direttamente al motore →</button>
+</article>
+</div>
+<div class="teacher-box">
+<span class="box-title">🎓 Il messaggio più importante</span>
+    Studiare l'italiano, la matematica, la logica, la storia e le scienze non diventa meno utile perché esiste l'IA. Diventa ancora più importante: dobbiamo formulare domande precise, riconoscere gli errori, verificare le fonti e decidere responsabilmente.
+  </div>
+<details>
+<summary>🗺️ Che cosa troverai nel viaggio?</summary>
+<div>
+<ol>
+<li>Che cos'è l'IA e perché non è una persona.</li>
+<li>Come comunicare un obiettivo senza lasciare pericolosi vuoti.</li>
+<li>Da dove arrivano gli esempi dai quali l'IA impara e che cosa sono gli sbilanciamenti.</li>
+<li>Perché può inventare risposte convincenti e come verificarle.</li>
+<li>La differenza fra conoscenze apprese, contesto fornito e ricerca con strumenti.</li>
+<li>Il funzionamento tecnico, spiegato con esperimenti semplici.</li>
+<li>Come gli agenti passano dalle parole alle azioni e perché devono avere limiti.</li>
+</ol>
+</div>
+</details>
+<div class="mission-box">
+<span class="box-title">🏁 La tua missione</span>
+    Alla fine saprai costruire una richiesta precisa, proteggere le informazioni personali e controllare se una risposta merita davvero fiducia. Ricordare tutti i termini tecnici non è obbligatorio: capire i principi sì.
+  </div>
+</section><section aria-labelledby="title-1" class="lesson" data-title="Che cos'è l'IA" id="lesson-1">
+<span class="lesson-kicker">Tappa 1 · Regole essenziali · Una macchina, non una persona</span>
+<h1 id="title-1">🤖 L'IA sembra intelligente, ma non è un essere umano</h1>
+<p class="lead">Il nome «intelligenza artificiale» indica molti sistemi diversi. Alcuni riconoscono immagini, altri consigliano contenuti, altri generano testi o compiono azioni. Non tutte le IA sono chatbot.</p>
+<div class="concept-grid">
+<article class="concept-card">
+<span aria-hidden="true" class="emoji">🔎</span>
+<h3>Riconoscere</h3>
+<p>Classifica fotografie, suoni, messaggi indesiderati o altri dati.</p>
+</article>
+<article class="concept-card">
+<span aria-hidden="true" class="emoji">🎁</span>
+<h3>Consigliare</h3>
+<p>Propone film, musica o percorsi usando somiglianze e comportamenti osservati.</p>
+</article>
+<article class="concept-card">
+<span aria-hidden="true" class="emoji">✍️</span>
+<h3>Generare</h3>
+<p>Crea testo, immagini, audio, video o codice partendo da istruzioni.</p>
+</article>
+</div>
+<div class="kid-box">
+<span class="box-title">🎭 Perché può sembrarci una persona?</span>
+    Ha imparato moltissimi schemi del linguaggio umano. Può usare parole gentili, raccontare emozioni e dire “mi dispiace”. Questo rende la conversazione naturale, ma non dimostra che provi davvero tristezza o che possieda desideri propri.
+  </div>
+<div class="simple-table-wrap">
+<table class="simple-table">
+<thead>
+<tr><th>Sembra che l'IA...</th><th>Una spiegazione più corretta</th></tr>
+</thead>
+<tbody>
+<tr><td>ricordi come una persona 🧠</td><td>usa il contesto disponibile e, in alcuni sistemi, memorie salvate con regole precise.</td></tr>
+<tr><td>provi emozioni ❤️</td><td>riconosce e genera schemi linguistici collegati alle emozioni.</td></tr>
+<tr><td>sappia tutto 📚</td><td>usa schemi appresi, informazioni fornite e talvolta strumenti di ricerca.</td></tr>
+<tr><td>abbia intenzioni proprie 🎯</td><td>segue obiettivi, istruzioni e regole definite dal sistema o dalle persone.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="demo-panel">
+<h2>🧪 Quale frase descrive meglio un'IA?</h2>
+<div class="puzzle-options" id="mindPuzzle">
+<button class="option-button mind-choice" data-answer="feel" type="button">“Prova davvero tutte le emozioni che descrive.”</button>
+<button class="option-button mind-choice" data-answer="pattern" type="button">“Riconosce schemi e produce risultati, ma non è una persona.”</button>
+<button class="option-button mind-choice" data-answer="always" type="button">“Sa sempre quando sta dicendo la verità.”</button>
+</div>
+<div aria-live="polite" class="feedback" id="mindFeedback">Scegli la descrizione più prudente.</div>
+</div>
+<div class="warning-box">
+<span class="box-title">⚠️ Le metafore sono mappe, non fotografie</span>
+    In questo percorso diremo che l'IA “pensa”, usa un “cervello” o scrive su una “lavagna”. Sono immagini utili per capire i calcoli, non prove che la macchina abbia una coscienza uguale alla nostra.
+  </div>
+</section><section aria-labelledby="title-2" class="lesson" data-title="Comunicare bene" id="lesson-2">
+<span class="lesson-kicker">Tappa 2 · Regole essenziali · Il timone umano</span>
+<h1 id="title-2">✍️ Comunicare bene con l'intelligenza artificiale</h1>
+<p class="lead">Una parola vaga può cambiare una risposta e, con un agente, può propagarsi lungo molte azioni. Per questo impariamo subito a trasformare un desiderio in un compito chiaro, prima ancora di guardare dentro il motore.</p>
+<div class="kid-box">
+<span class="box-title">🧒 L'IA non legge nella mente</span>
+  “Preparami qualcosa di bello” obbliga la macchina a indovinare. “Prepara una storia di 400 parole per bambini di 9 anni, con un finale allegro e senza scene paurose” riduce gli equivoci.
+</div><div class="comparison-grid">
+<article class="bad-example">
+<h2>❌ Richiesta vaga</h2>
+<p>«Fammi una ricerca bella sui pianeti.»</p>
+<p>Mancano l'età del lettore, la lunghezza, le fonti, lo scopo, il formato e i criteri di correttezza.</p>
+</article>
+<article class="good-example">
+<h2>✅ Richiesta precisa</h2>
+<p>«Spiega i pianeti a una classe di 10 anni, in 500 parole, con un esempio per pianeta, distinguendo fatti certi e curiosità. Concludi con cinque domande di verifica.»</p>
+</article>
+</div>
+<div class="demo-panel">
+<h2>🧱 Costruisci la tua istruzione</h2>
+<div class="prompt-grid">
+<div>
+<label for="goalInput">1. Obiettivo</label>
+<input id="goalInput" type="text" value="Spiegare il ciclo dell'acqua"/>
+</div>
+<div>
+<label for="audienceInput">2. Destinatario e contesto</label>
+<input id="audienceInput" type="text" value="a bambini di 9 anni durante una lezione"/>
+</div>
+<div>
+<label for="rulesInput">3. Regole e limiti</label>
+<textarea id="rulesInput">Usa parole semplici. Non inventare dati. Distingui evaporazione, condensazione e precipitazione.</textarea>
+</div>
+<div>
+<label for="formatInput">4. Forma del risultato</label>
+<textarea id="formatInput">Crea una spiegazione in 6 passaggi, un esempio quotidiano e 3 domande finali.</textarea>
+</div>
+</div>
+<div class="button-row">
+<button class="primary-button" id="buildPromptButton" type="button">Costruisci l'istruzione</button>
+<button id="clearPromptButton" type="button">Svuota i campi</button>
+</div>
+<div aria-live="polite" class="prompt-preview" id="promptPreview">La tua istruzione completa apparirà qui.</div>
+</div>
+<h2>📜 Perché studiare il latino e la matematica ci aiuta a comunicare con l’IA?</h2>
+<p>Quando parliamo con un’intelligenza artificiale, non basta conoscere tante parole: dobbiamo costruire la frase in modo che siano chiari <strong>lo scopo</strong>, <strong>le informazioni importanti</strong>, <strong>le regole da rispettare</strong> e <strong>il risultato che vogliamo ottenere</strong>. Studiare ci allena proprio a mettere ordine nelle idee prima di comunicarle.</p>
+<div class="kid-box">
+<span class="box-title">🧩 Le parole sono pezzi di una costruzione</span>
+    Immagina di voler costruire un ponte con dei mattoncini. Se li metti in un ordine casuale, il ponte cade. Anche una richiesta fatta all’IA funziona così: ogni parola deve avere un compito e deve aiutare la frase a raggiungere il suo obiettivo.
+  </div>
+<div class="comparison-grid">
+<article class="bad-example">
+<h2>❌ Idea poco ordinata</h2>
+<p>«Fammi qualcosa sui Romani che sia bello e non troppo lungo.»</p>
+<p>L’IA deve indovinare lo scopo, il pubblico e la lunghezza, oltre a stabilire quali informazioni siano davvero importanti.</p>
+</article>
+<article class="good-example">
+<h2>✅ Idea costruita con logica</h2>
+<p>«Spiega a una classe di 11 anni come vivevano i bambini nell’antica Roma, in cinque brevi paragrafi, usando un esempio quotidiano e distinguendo i fatti certi dalle curiosità.»</p>
+</article>
+</div>
+<p>Le lingue molto strutturate, come il <strong>latino</strong>, ci allenano a osservare il ruolo di ogni parola: chi compie un’azione, chi la riceve, quali elementi dipendono dagli altri e come una piccola desinenza può cambiare il significato di tutta la frase. Questo aiuta a non parlare in modo confuso e a scegliere parole coerenti con ciò che vogliamo comunicare.</p>
+<p>La <strong>matematica</strong> ci allena invece a partire da dati e regole, procedere per passaggi e controllare se il risultato rispetta le condizioni iniziali. Ci insegna a domandarci: «Qual è il problema? Quali informazioni possiedo? Quali vincoli devo rispettare? Come verifico che la risposta sia corretta?»</p>
+<div class="teacher-box">
+<span class="box-title">🎓 Studiare non serve soltanto a conoscere più cose</span>
+    Serve a imparare a <strong>pensare con ordine</strong> e a <strong>esprimere con chiarezza lo scopo che vogliamo raggiungere</strong>. L’IA può essere molto potente, ma siamo noi a doverle fornire una direzione comprensibile. Più sappiamo usare bene la lingua e la logica, più possiamo guidarla, riconoscere i suoi errori e utilizzare le sue risposte in modo responsabile.
+  </div>
+<div class="mission-box">
+<span class="box-title">🧭 La formula del buon timoniere</span>
+          Obiettivo chiaro + contesto + vincoli + formato + verifica = un'istruzione molto più utile.
+        </div>
+</section><section aria-labelledby="title-3" class="lesson" data-title="Dati e sbilanciamenti" id="lesson-3">
+<span class="lesson-kicker">Tappa 3 · Regole essenziali · La scuola degli esempi</span>
+<h1 id="title-3">📚 Da dove impara l'IA?</h1>
+<p class="lead">Un modello impara osservando moltissimi esempi. Se gli esempi sono incompleti, vecchi, errati o poco vari, anche ciò che impara può essere incompleto o sbilanciato.</p>
+<div class="kid-box">
+<span class="box-title">🍎 Il robot che conosce soltanto le mele rosse</span>
+    Immagina di mostrare a un robot mille mele rosse e nessuna mela verde. Quando vede una mela verde, potrebbe dire: “Non è una mela”. Non è diventato cattivo: la sua scuola era troppo povera di esempi diversi. Il risultato, però, resta sbagliato.
+  </div>
+<div class="demo-panel">
+<h2>🎒 Allena il piccolo classificatore</h2>
+<p>Prima mostragli solo esempi molto simili, poi prova qualcosa di nuovo.</p>
+<div class="button-row">
+<button class="primary-button" id="trainRedButton" type="button">1. Mostra 100 mele rosse 🍎</button>
+<button id="testGreenButton" type="button">2. Mostra una mela verde 🍏</button>
+<button id="trainDiverseButton" type="button">3. Aggiungi esempi diversi 🌍</button>
+</div>
+<div aria-live="polite" class="feedback" id="dataFeedback">Il classificatore non ha ancora visto esempi.</div>
+</div>
+<h2>⚖️ Che cosa significa “sbilanciamento”?</h2>
+<p>Significa che alcuni casi sono presenti molto più di altri. Può accadere con colori, lingue, accenti, culture, età o situazioni. Un sistema può funzionare bene per il gruppo più rappresentato e peggio per quelli meno rappresentati.</p>
+<div class="concept-grid">
+<article class="concept-card"><span class="emoji">📉</span><h3>Dati mancanti</h3><p>Il modello ha visto pochi esempi di una situazione.</p></article>
+<article class="concept-card"><span class="emoji">🕰️</span><h3>Dati vecchi</h3><p>Il mondo è cambiato, ma gli esempi non sono aggiornati.</p></article>
+<article class="concept-card"><span class="emoji">⚖️</span><h3>Dati sbilanciati</h3><p>Alcuni gruppi o casi sono rappresentati molto più di altri.</p></article>
+</div>
+<details>
+<summary>🔬 Approfondimento: il modello copia semplicemente i dati?</summary>
+<div>
+<p>Non conserva necessariamente ogni pagina come una biblioteca ordinata. Durante l'allenamento regola moltissimi pesi per catturare schemi. Può quindi combinare idee e produrre esempi nuovi, ma può anche ricostruire male un fatto.</p>
+<p>Dopo il grande allenamento generale, altri esempi e valutazioni possono insegnargli a seguire meglio le istruzioni e a evitare alcuni comportamenti indesiderati.</p>
+</div>
+</details>
+<div class="teacher-box">
+<span class="box-title">🎓 Una domanda intelligente da fare</span>
+    “Per quali persone e situazioni questo sistema è stato controllato?” È spesso più utile di chiedere soltanto “Quanto è preciso in media?”
+  </div>
+</section><section aria-labelledby="title-4" class="lesson" data-title="Errori e verifica" id="lesson-4">
+<span class="lesson-kicker">Tappa 4 · Regole essenziali · L'errore con un bellissimo costume</span>
+<h1 id="title-4">🎭 L'IA può parlare benissimo e dire una cosa falsa</h1>
+<p class="lead">Una frase sicura, elegante e piena di dettagli non è automaticamente vera. Un modello può completare una risposta con informazioni plausibili ma inesatte o persino inventate.</p>
+<div class="kid-box">
+<span class="box-title">🧙 Il narratore troppo sicuro</span>
+    Immagina un narratore bravissimo che, quando non ricorda un dettaglio, prova comunque a completare la storia. A volte indovina. A volte inventa un nome che sembra perfetto. La sua voce sicura non trasforma l'invenzione in un fatto.
+  </div>
+<div class="demo-panel">
+<h2>🕵️ Quale risposta merita più fiducia?</h2>
+<p>Domanda immaginaria: “In quale anno fu costruito il Ponte Aurora?”</p>
+<div class="puzzle-options" id="truthPuzzle">
+<button class="option-button truth-choice" data-answer="confident" type="button">“Nel 1842, senza alcun dubbio.”</button>
+<button class="option-button truth-choice" data-answer="crowd" type="button">“Molte persone dicono 1842, quindi deve essere vero.”</button>
+<button class="option-button truth-choice" data-answer="verify" type="button">“Non posso verificarlo da qui: cerchiamo una fonte ufficiale e controlliamo la data.”</button>
+</div>
+<div aria-live="polite" class="feedback" id="truthFeedback">La domanda usa un luogo inventato: conta il metodo, non la data.</div>
+</div>
+<h2>🔎 Le quattro mosse del detective</h2>
+<div class="safety-rule"><span class="emoji">📚</span><div><strong>Chiedi le fonti.</strong> Poi controlla che esistano e che dicano davvero ciò che viene affermato.</div></div>
+<div class="safety-rule"><span class="emoji">📅</span><div><strong>Controlla la data.</strong> Una risposta un tempo corretta può essere ormai superata.</div></div>
+<div class="safety-rule"><span class="emoji">⚖️</span><div><strong>Confronta fonti indipendenti.</strong> Dieci siti che copiano lo stesso errore non sono dieci conferme.</div></div>
+<div class="safety-rule"><span class="emoji">🙋</span><div><strong>Chiedi a una persona competente.</strong> È essenziale quando sono coinvolte salute, sicurezza, denaro, diritti o decisioni importanti.</div></div>
+<div class="warning-box">
+<span class="box-title">🚨 Sicurezza linguistica</span>
+    Parole come “certamente” o “senza dubbio” esprimono uno stile. Non sono una certificazione automatica della verità. La sicurezza con cui una risposta è scritta e la sua correttezza sono due cose diverse.
+  </div>
+<details>
+<summary>🔬 Approfondimento: perché accade?</summary>
+<div>
+<p>Il modello genera continuazioni compatibili con il contesto e con gli schemi appresi. Se non dispone del fatto corretto o non usa una fonte, può costruire una continuazione linguisticamente ottima ma fattualmente sbagliata. Questo tipo di errore viene spesso chiamato “allucinazione”.</p>
+</div>
+</details>
+</section><section aria-labelledby="title-5" class="lesson" data-title="Conoscenza e privacy" id="lesson-5">
+<span class="lesson-kicker">Tappa 5 · Regole essenziali · Memoria, biblioteca e segreti</span>
+<h1 id="title-5">🧠📄🌐 Da dove arriva una risposta?</h1>
+<p class="lead">Non tutte le informazioni arrivano dallo stesso posto. È utile distinguere ciò che il modello ha appreso, ciò che gli consegniamo nella conversazione e ciò che cerca con strumenti autorizzati.</p>
+<div class="demo-panel">
+<h2>🏫 Tre modi di rispondere</h2>
+<div aria-label="Scegli la fonte dell'informazione" class="button-row" role="group">
+<button class="source-button active" data-source="learned" type="button">🧠 Ciò che ha appreso</button>
+<button class="source-button" data-source="context" type="button">📄 Il foglio che gli dai</button>
+<button class="source-button" data-source="tool" type="button">🌐 Una ricerca con strumenti</button>
+</div>
+<div aria-live="polite" class="source-display" id="sourceDisplay"></div>
+</div>
+<div class="kid-box">
+<span class="box-title">📚 La metafora dell'alunno</span>
+    Un alunno può rispondere usando ciò che ricorda, leggendo il foglio appena ricevuto oppure andando in biblioteca. Sono tre attività diverse. Anche con l'IA dobbiamo sapere quale di queste modalità sta usando.
+  </div>
+<h2>🪟 Il contesto non è una memoria infinita</h2>
+<p>La conversazione e i documenti forniti occupano uno spazio limitato. In una richiesta molto lunga, alcuni dettagli possono ricevere meno attenzione. Le regole importanti vanno quindi scritte chiaramente, ordinate e, quando serve, ripetute nel punto giusto.</p>
+<h2>🔐 Prima di consegnare un segreto</h2>
+<p>Non inserire automaticamente in un sistema di IA tutto ciò che non pubblicheresti o che appartiene ad altre persone. Prima bisogna capire dove andranno i dati e quali regole applica il servizio.</p>
+<div class="demo-panel">
+<h2>🛡️ Condivideresti questa informazione?</h2>
+<div class="puzzle-options" id="privacyPuzzle">
+<button class="option-button privacy-choice" data-answer="private" type="button">La password della posta elettronica 🔑</button>
+<button class="option-button privacy-choice" data-answer="safe" type="button">“Spiegami la fotosintesi con parole semplici” 🌿</button>
+<button class="option-button privacy-choice" data-answer="private" type="button">La fotografia del documento di un'altra persona 🪪</button>
+<button class="option-button privacy-choice" data-answer="careful" type="button">Una relazione scolastica che contiene nomi e dati personali 🏫</button>
+</div>
+<div aria-live="polite" class="feedback" id="privacyFeedback">Seleziona un esempio per vedere quale controllo fare.</div>
+</div>
+<div class="warning-box">
+<span class="box-title">🛑 Informazioni da proteggere</span>
+    Password, indirizzi, numeri di telefono, documenti, dati sanitari, fotografie private, informazioni riservate in ambito scolastico o lavorativo e dati personali di altre persone richiedono particolare attenzione e autorizzazione.
+  </div>
+</section><section aria-labelledby="title-6" class="lesson" data-title="Token" id="lesson-6">
+<span class="lesson-kicker">Tappa 6 · Dentro il motore · I mattoncini</span>
+<h1 id="title-6">🧩 I token: come l'IA smonta le parole</h1>
+<p class="lead">Un computer non riceve una frase come un unico oggetto. Prima la divide in piccoli pezzi chiamati token.</p>
+<div class="kid-box">
+<span class="box-title">🧱 L'immagine più semplice</span>
+          Una frase è come un castello di LEGO. Noi vediamo il castello intero; l'IA, prima di lavorare, separa alcuni mattoncini e assegna a ciascuno un numero.
+        </div>
+<p>Le parole comuni possono restare intere. Le parole rare, inventate o molto lunghe possono essere spezzate in parti più piccole. Anche la punteggiatura, i numeri e gli spazi possono avere un ruolo.</p>
+<div class="demo-panel">
+<h2>🧪 Laboratorio dei mattoncini</h2>
+<p>Scegli uno dei due esempi. La simulazione separa la punteggiatura, divide i numeri lunghi in gruppi e spezza alcune parole lunghe in sottoparti simili a radici, prefissi o suffissi.</p>
+<div class="button-row">
+<button class="primary-button" id="commonTokenButton" type="button">Mostra una frase comune</button>
+<button id="rareTokenButton" type="button">Mostra una parola rara e alcuni numeri</button>
+</div>
+<div aria-live="polite" class="token-output" id="tokenOutput"></div>
+<p><small><strong>Importante:</strong> è una simulazione didattica. Un tokenizer reale usa un vocabolario appreso e può dividere gli stessi testi in modo diverso a seconda del modello.</small></p>
+</div>
+<div class="warning-box">
+<span class="box-title">⚠️ Perché conta la comunicazione?</span>
+          Punteggiatura, ordine e scelta delle parole possono cambiare completamente il significato di una frase. «Andiamo a mangiare bambini» sembra dire che i bambini siano il pasto; «Andiamo a mangiare, bambini» è invece un invito rivolto ai bambini. Una sola virgola chiarisce lo scopo della comunicazione.
+        </div>
+<details>
+<summary>🔬 Approfondimento: che cosa significa BPE?</summary>
+<div>
+<p><strong>BPE</strong> significa Byte-Pair Encoding. Durante la preparazione del vocabolario, il sistema osserva quali pezzi di testo compaiono spesso insieme e li combina. In questo modo conserva intere le sequenze frequenti e usa pezzi più piccoli per quelle rare.</p>
+<p>Il risultato reale dipende dal modello: la stessa parola può essere divisa in modi differenti.</p>
+</div>
+</details>
+</section><section aria-labelledby="title-7" class="lesson" data-title="Embedding" id="lesson-7">
+<span class="lesson-kicker">Tappa 7 · Dentro il motore · La mappa dei significati</span>
+<h1 id="title-7">🗺️ Embedding e matrici: trasformare idee in coordinate</h1>
+<p class="lead">Dopo aver creato i token, l'IA trasforma ogni pezzo in una fila di numeri: un vettore. Molti vettori impilati formano una matrice.</p>
+<div class="kid-box">
+<span class="box-title">📍 Una gigantesca mappa invisibile</span>
+          Immagina una città con miliardi di indirizzi. «Cane» e «gatto» abitano abbastanza vicini perché sono animali domestici. «Astronave» abita molto più lontano. Le coordinate non sono strade vere: sono valori appresi dal modello.
+        </div>
+<div class="demo-panel">
+<h2>📊 Esplora tre vettori immaginari</h2>
+<div aria-label="Scegli un concetto" class="button-row" role="group">
+<button class="vector-choice active" data-vector="cane" type="button">🐶 Cane</button>
+<button class="vector-choice" data-vector="gatto" type="button">🐱 Gatto</button>
+<button class="vector-choice" data-vector="astronave" type="button">🚀 Astronave</button>
+</div>
+<div aria-live="polite" class="vector-bars" id="vectorBars">
+<div class="vector-row">
+<strong>È un animale</strong>
+<div class="bar-track"><div class="bar-fill" data-bar="animal"></div></div>
+<span data-value="animal">0%</span>
+</div>
+<div class="vector-row">
+<strong>Vive in casa</strong>
+<div class="bar-track"><div class="bar-fill" data-bar="home"></div></div>
+<span data-value="home">0%</span>
+</div>
+<div class="vector-row">
+<strong>Può abbaiare</strong>
+<div class="bar-track"><div class="bar-fill" data-bar="bark"></div></div>
+<span data-value="bark">0%</span>
+</div>
+</div>
+</div>
+<h2>🧮 Che cos'è una matrice?</h2>
+<p>È una tabella di numeri. Le GPU sono molto brave a moltiplicare grandi matrici in parallelo, come se migliaia di piccoli aiutanti eseguissero operazioni contemporaneamente.</p>
+<div aria-label="Esempio visivo di matrice 5 per 5" class="matrix">
+<span class="matrix-cell">0.8</span><span class="matrix-cell">0.1</span><span class="matrix-cell">−0.2</span><span class="matrix-cell">0.4</span><span class="matrix-cell">0.7</span>
+<span class="matrix-cell">0.9</span><span class="matrix-cell">0.3</span><span class="matrix-cell">0.0</span><span class="matrix-cell">0.2</span><span class="matrix-cell">0.6</span>
+<span class="matrix-cell">−0.4</span><span class="matrix-cell">0.7</span><span class="matrix-cell">0.5</span><span class="matrix-cell">0.1</span><span class="matrix-cell">0.8</span>
+<span class="matrix-cell">0.2</span><span class="matrix-cell">−0.1</span><span class="matrix-cell">0.6</span><span class="matrix-cell">0.9</span><span class="matrix-cell">0.3</span>
+<span class="matrix-cell">0.5</span><span class="matrix-cell">0.8</span><span class="matrix-cell">0.2</span><span class="matrix-cell">−0.3</span><span class="matrix-cell">0.4</span>
+</div>
+<div class="teacher-box">
+<span class="box-title">🎓 Una precisione utile</span>
+          Le barre dell'esempio hanno nomi comprensibili per noi. Nei modelli reali, le singole dimensioni del vettore non corrispondono quasi mai a etichette semplici come «animale» o «casa». Il significato è distribuito fra moltissimi numeri.
+        </div>
+</section><section aria-labelledby="title-8" class="lesson" data-title="Attention" id="lesson-8">
+<span class="lesson-kicker">Tappa 8 · Dentro il motore · Il riflettore</span>
+<h1 id="title-8">🔦 Attention: trovare le parole importanti nel contesto</h1>
+<p class="lead">La stessa parola può avere significati diversi. L'Attention aiuta ogni token a guardare gli altri token e a capire quali sono più utili.</p>
+<div class="kid-box">
+<span class="box-title">🎭 La parola con due costumi</span>
+          La parola «capo» può indicare la persona che dirige un'azienda oppure un indumento. Per scegliere il costume giusto, l'IA accende un riflettore sulle parole vicine e lontane.
+        </div>
+<div class="demo-panel">
+<h2>🕵️ La frase trabocchetto</h2>
+<p><em>Il capo dell'azienda ha comprato un bellissimo capo d'abbigliamento.</em></p>
+<div class="button-row">
+<button id="firstCapoButton" type="button">Illumina il primo «capo»</button>
+<button id="secondCapoButton" type="button">Illumina il secondo «capo»</button>
+</div>
+<div aria-live="polite" class="sentence-demo" id="attentionSentence"></div>
+<div class="feedback" id="attentionFeedback">Scegli una delle due occorrenze di «capo» per vedere quali parole aiutano a comprenderne il significato.</div>
+</div>
+<h2>🔍 Query, Key e Value</h2>
+<div class="concept-grid">
+<article class="concept-card">
+<span aria-hidden="true" class="emoji">❓</span>
+<h3>Query</h3>
+<p>Che cosa sto cercando per capire meglio?</p>
+</article>
+<article class="concept-card">
+<span aria-hidden="true" class="emoji">🔑</span>
+<h3>Key</h3>
+<p>Quale informazione posso offrire alle altre parole?</p>
+</article>
+<article class="concept-card">
+<span aria-hidden="true" class="emoji">📦</span>
+<h3>Value</h3>
+<p>Quale contenuto porto nella nuova rappresentazione?</p>
+</article>
+</div>
+<details>
+<summary>🧮 Approfondimento: i pesi di attenzione</summary>
+<div>
+<p>L'IA assegna punteggi alle relazioni fra token. Dopo una normalizzazione, questi punteggi diventano pesi: alcune informazioni ricevono maggiore importanza, altre minore. Il nuovo vettore del token combina quindi più informazioni contestuali.</p>
+<p>L'Attention non è una sola luce. I modelli Transformer usano spesso molte teste di attenzione, capaci di osservare relazioni differenti in parallelo.</p>
+</div>
+</details>
+<div class="warning-box">
+<span class="box-title">✍️ Comunicazione e contesto</span>
+          Una richiesta breve può essere ambigua. Aggiungere il contesto giusto aiuta l'IA a orientare meglio il suo riflettore: «Scrivi un testo sul capo» è vago; «Scrivi un testo sul capo d'abbigliamento che protegge dalla pioggia» è molto più chiaro.
+        </div>
+</section><section aria-labelledby="title-9" class="lesson" data-title="Transformer" id="lesson-9">
+<span class="lesson-kicker">Tappa 9 · Dentro il motore · La macchina che impara</span>
+<h1 id="title-9">⚙️ Transformer, pesi e allenamento</h1>
+<p class="lead">Il Transformer è una grande rete di operazioni matematiche. La sua conoscenza non è conservata in pagine ordinate, ma distribuita nei valori di moltissimi parametri.</p>
+<div class="kid-box">
+<span class="box-title">🎛️ Milioni di manopole</span>
+          Immagina una parete gigantesca piena di manopole. All'inizio sono regolate quasi a caso. Durante l'allenamento, ogni errore suggerisce di ruotarne alcune di pochissimo. Dopo moltissimi esempi, la macchina diventa molto più brava a riconoscere schemi.
+        </div>
+<div class="demo-panel">
+<h2>🎛️ Regola una manopola immaginaria</h2>
+<label for="weightSlider">Forza della connessione: <span id="weightValue">50</span>%</label>
+<input id="weightSlider" max="100" min="0" type="range" value="50"/>
+<div class="feedback" id="weightFeedback">La connessione lascia passare metà del segnale.</div>
+</div>
+<h2>🏋️ Come avviene l'allenamento?</h2>
+<ol>
+<li>Il modello prova a prevedere una parte mancante o il token successivo.</li>
+<li>Confronta la previsione con il risultato corretto presente nei dati.</li>
+<li>Calcola quanto ha sbagliato mediante la funzione di perdita, chiamata <strong>loss</strong>.</li>
+<li>La backpropagation indica come modificare leggermente i pesi.</li>
+<li>Il ciclo viene ripetuto moltissime volte.</li>
+</ol>
+<div class="teacher-box">
+<span class="box-title">🧠 Non è una biblioteca tradizionale</span>
+          Il modello non cerca sempre una frase identica nascosta in un cassetto. I pesi rappresentano schemi appresi. Per questo può combinare informazioni, ma può anche ricostruire male un fatto e produrre un errore convincente.
+        </div>
+<div class="warning-box">
+<span class="box-title">🔎 Perché dobbiamo verificare?</span>
+          Un testo scritto bene non è automaticamente vero. La forma linguistica e la correttezza dei fatti sono due cose diverse. Studiare ci permette di riconoscere quando la risposta non torna.
+        </div>
+</section><section aria-labelledby="title-10" class="lesson" data-title="Inferenza" id="lesson-10">
+<span class="lesson-kicker">Tappa 10 · Dentro il motore · La ruota delle possibilità</span>
+<h1 id="title-10">🎡 Inferenza, Softmax e temperatura</h1>
+<p class="lead">Quando usiamo un modello già allenato, siamo nella fase di inferenza. Nella generazione testuale, il sistema calcola quali token potrebbero continuare meglio il testo.</p>
+<div class="kid-box">
+<span class="box-title">🍕 Una pizza di probabilità</span>
+          Immagina una pizza divisa in spicchi. Ogni spicchio è una possibile parola. Le continuazioni più adatte ricevono spicchi più grandi. La funzione Softmax trasforma i punteggi grezzi in probabilità confrontabili.
+        </div>
+<div class="demo-panel">
+<h2>🌡️ Sposta il cursore della temperatura e osserva la ruota</h2>
+<p>Completiamo: <em>«Fuori piove e il cane si ripara nella...»</em></p>
+<label for="temperatureSlider">Temperatura: <span id="temperatureLabel">equilibrata</span></label>
+<input aria-describedby="temperatureExplanation" id="temperatureSlider" max="100" min="0" type="range" value="35"/>
+<div class="temperature-readout">
+<span id="temperatureValue">T = 1,00</span>
+<span id="temperatureExplanation">Bassa = scelta concentrata · Alta = scelta più varia</span>
+</div>
+<div class="softmax-simulator">
+<div class="wheel-column">
+<div class="wheel-stage">
+<svg aria-labelledby="wheelTitle wheelDescription" class="softmax-wheel" id="softmaxWheel" role="img" viewBox="0 0 360 360">
+<title id="wheelTitle">Ruota delle probabilità Softmax</title>
+<desc id="wheelDescription">Tre spicchi rappresentano le probabilità associate alle parole «cuccia», «casa» e «nuvola». La loro ampiezza cambia con la temperatura.</desc>
+<g id="wheelSlices"></g>
+<circle class="wheel-rim" cx="180" cy="180" r="165"></circle>
+</svg>
+<div aria-hidden="true" class="wheel-hub">SOFT<br/>MAX</div>
+</div>
+<button id="spinSoftmaxWheel" type="button">🎡 Fai girare la ruota</button>
+<div aria-live="polite" class="wheel-result" id="softmaxWheelResult">Regola la temperatura, poi fai girare la ruota.</div>
+<div aria-label="Ultimi risultati della ruota" class="wheel-history" id="softmaxWheelHistory"></div>
+</div>
+<div aria-live="polite" class="probability-list">
+<div class="probability-item" data-option="cuccia">
+<strong class="probability-key">cuccia</strong>
+<div class="bar-track"><div class="probability-fill" data-prob="cuccia"></div></div>
+<span data-prob-value="cuccia">0%</span>
+</div>
+<div class="probability-item" data-option="casa">
+<strong class="probability-key">casa</strong>
+<div class="bar-track"><div class="probability-fill" data-prob="casa"></div></div>
+<span data-prob-value="casa">0%</span>
+</div>
+<div class="probability-item" data-option="nuvola">
+<strong class="probability-key">nuvola</strong>
+<div class="bar-track"><div class="probability-fill" data-prob="nuvola"></div></div>
+<span data-prob-value="nuvola">0%</span>
+</div>
+<p><strong>Osserva gli spicchi:</strong> la loro dimensione è proporzionale alle percentuali mostrate. Quando la ruota gira, uno spicchio grande ha una probabilità maggiore di fermarsi sotto la freccia.</p>
+<p><strong>🎟️ Sacchetto didattico:</strong> per rendere l'esempio evidente, ogni serie di estrazioni usa 20 biglietti distribuiti secondo le probabilità della Softmax e poi mescolati. In questo modo, facendo più giri, vedrai comparire anche le alternative senza perdere il rapporto mostrato dagli spicchi.</p>
+</div>
+</div>
+</div>
+<p>A temperatura bassa, la distribuzione tende a concentrarsi sulle opzioni più probabili. A temperatura più alta, le alternative meno probabili possono ricevere più spazio. Non è un interruttore «vero/falso»: cambia soprattutto la varietà della scelta.</p>
+<div class="teacher-box">
+<span class="box-title">🧮 Ma l'IA fa soltanto indovinelli?</span>
+          La previsione del token successivo è il meccanismo di base della generazione linguistica. Tuttavia, un sistema moderno può usarlo all'interno di cicli più grandi: ragionare, consultare strumenti, osservare risultati e correggere il piano.
+        </div>
+</section><section aria-labelledby="title-11" class="lesson" data-title="Reasoning" id="lesson-11">
+<span class="lesson-kicker">Tappa 11 · Dentro il motore · Pensare prima di rispondere</span>
+<h1 id="title-11">🧠 Reasoning: ipotizzare, controllare e correggere</h1>
+<p class="lead">I modelli di reasoning hanno imparato a impiegare più passaggi di calcolo durante la risposta. Non devono trattare ogni domanda nello stesso modo: una domanda semplice può ricevere una risposta rapida, mentre un problema difficile può attivare più verifiche.</p>
+<div class="kid-box">
+<span class="box-title">📝 La lavagna invisibile</span>
+          La Chain of Thought può essere immaginata come una lavagna di lavoro. Il modello prova un'idea, nota che non rispetta una regola, la cambia e controlla di nuovo. Non è necessariamente una vocina umana e non è sempre infallibile.
+        </div>
+<div class="demo-panel">
+<h2>🐱 L'enigma dei gatti robot</h2>
+<p>In una stanza quadrata c'è un gatto robot in ogni angolo. Davanti a ogni gatto ci sono gli altri tre gatti. Quanti gatti ci sono in totale?</p>
+<div class="puzzle-options" id="catPuzzle">
+<button class="option-button" data-answer="12" type="button">12 gatti</button>
+<button class="option-button" data-answer="16" type="button">16 gatti</button>
+<button class="option-button" data-answer="4" type="button">4 gatti</button>
+</div>
+<div aria-live="polite" class="feedback" id="catFeedback">Scegli una risposta e prova a immaginare la stanza dall'alto.</div>
+</div>
+<h2>⚡ Perché oggi sembra più veloce?</h2>
+<p>I sistemi moderni possono regolare lo sforzo: non spendono lo stesso numero di passaggi per «2 + 2» e per una dimostrazione difficile. Possono inoltre alternare piccoli momenti di ragionamento, azione e verifica, invece di completare sempre un lunghissimo monologo prima di iniziare.</p>
+<div class="warning-box">
+<span class="box-title">⚠️ Correggersi non significa essere infallibili</span>
+          Un controllo locale può avvenire quasi all'istante, ma un problema complesso può ancora richiedere tempo e produrre errori. L'utente deve continuare a chiedere prove, esempi, fonti e controlli.
+        </div>
+<details>
+<summary>📜 Dalle famiglie o1 e o3 ai sistemi più recenti</summary>
+<div>
+<p>I primi modelli di reasoning hanno mostrato chiaramente il vantaggio del calcolo aggiuntivo durante l'inferenza. Le generazioni successive hanno reso più dinamica la scelta della quantità di ragionamento da utilizzare e hanno integrato meglio strumenti, verifiche e produzione della risposta.</p>
+</div>
+</details>
+</section><section aria-labelledby="title-12" class="lesson" data-title="Immagini e suoni" id="lesson-12">
+<span class="lesson-kicker">Tappa 12 · Dentro il motore · Occhi e orecchie digitali</span>
+<h1 id="title-12">👁️🎵 Come si trasformano in numeri le immagini e i suoni?</h1>
+<p class="lead">Una rete neurale non possiede occhi o orecchie biologiche. I pixel e le onde sonore devono essere convertiti in rappresentazioni numeriche.</p>
+<div class="concept-grid">
+<article class="concept-card">
+<span aria-hidden="true" class="emoji">🖼️</span>
+<h3>Immagini</h3>
+<p>Possono essere suddivise in regioni o patch, poi trasformate in vettori visivi.</p>
+</article>
+<article class="concept-card">
+<span aria-hidden="true" class="emoji">🎤</span>
+<h3>Audio</h3>
+<p>Può essere campionato come forma d'onda, spettrogramma o token acustici.</p>
+</article>
+<article class="concept-card">
+<span aria-hidden="true" class="emoji">🎬</span>
+<h3>Video</h3>
+<p>Richiede anche di capire l'ordine temporale e il movimento.</p>
+</article>
+</div>
+<div class="kid-box">
+<span class="box-title">🧩 Le patch non sono parole</span>
+          Un tassello dell'immagine può essere trattato come una piccola unità di input, ma non deve essere tradotto prima in una parola come «occhio» o «baffo». Il modello può lavorare direttamente con caratteristiche visive.
+        </div>
+<div class="demo-panel">
+<h2>🎭 La stessa frase, due toni diversi</h2>
+<p><strong>«Certo, bellissima idea...»</strong></p>
+<div class="button-row">
+<button class="tone-button" data-tone="sincero" type="button">🙂 Tono sincero</button>
+<button class="tone-button" data-tone="sarcastico" type="button">🙃 Tono sarcastico</button>
+</div>
+<div class="feedback" id="toneFeedback">Le parole scritte sono identiche. Scegli un tono per vedere come può cambiare il significato.</div>
+</div>
+<h2>🗣️ Che cos'è uno Speaker Embedding?</h2>
+<p>Uno Speaker Embedding descrive caratteristiche statistiche di una voce e condiziona la generazione. Di solito non modifica permanentemente tutti i pesi del modello: è una guida temporanea allo stile vocale.</p>
+<div class="warning-box">
+<span class="box-title">🔐 Una regola di responsabilità</span>
+          Imitare la voce o l'immagine di una persona reale richiede consenso e trasparenza. Una tecnologia utile può diventare ingannevole se viene usata per far credere che qualcuno abbia detto o fatto qualcosa che non è mai accaduto.
+        </div>
+</section><section aria-labelledby="title-13" class="lesson" data-title="Multimodalità" id="lesson-13">
+<span class="lesson-kicker">Tappa 13 · Dentro il motore · Un cervello, molti sensi</span>
+<h1 id="title-13">🌈 Multimodalità integrata: un solo sistema, molti sensi</h1>
+<p class="lead">I sistemi più moderni possono essere addestrati a collegare testo, immagini, audio e video in uno spazio di rappresentazione condiviso.</p>
+<div class="kid-box">
+<span class="box-title">👀👂📖 Una sola squadra</span>
+          Prima, un programma ascoltava, un altro trascriveva, un altro ragionava e un altro parlava. Ora un unico sistema può imparare collegando più modalità, come un cervello con occhi, orecchie e linguaggio.
+        </div>
+<div class="demo-panel">
+<h2>🧠 Costruisci un significato comune</h2>
+<p>Attiva i diversi indizi che possono descrivere lo stesso gatto.</p>
+<div aria-label="Modalità disponibili" class="modalities" role="group">
+<button aria-pressed="false" class="modality-button" data-mode="text" type="button"><span>📖</span>Testo</button>
+<button aria-pressed="false" class="modality-button" data-mode="image" type="button"><span>🖼️</span>Immagine</button>
+<button aria-pressed="false" class="modality-button" data-mode="audio" type="button"><span>🎵</span>Audio</button>
+<button aria-pressed="false" class="modality-button" data-mode="video" type="button"><span>🎬</span>Video</button>
+</div>
+<div aria-live="polite" class="shared-space" id="sharedSpace">
+<strong>Concetto condiviso: 🐱 GATTO</strong>
+<p>Attiva almeno una modalità per vedere quali informazioni può offrire.</p>
+</div>
+</div>
+<h2>🎬 Il video aggiunge il tempo</h2>
+<p>Un bicchiere intero, una mano che lo urta e i frammenti sul pavimento raccontano una sequenza. Se si sente anche un rumore di vetro, l'IA può collegare vista, suono e ordine temporale.</p>
+<div class="teacher-box">
+<span class="box-title">🔬 Una precisazione importante</span>
+          «Nativo» non significa che i pixel entrino magicamente nel cervello artificiale senza trasformazioni. Significa che le rappresentazioni delle diverse modalità possono essere addestrate e usate insieme, senza dover ridurre obbligatoriamente tutto a una stringa di testo intermedia.
+        </div>
+</section><section aria-labelledby="title-14" class="lesson" data-title="Agenti" id="lesson-14">
+<span class="lesson-kicker">Tappa 14 · Agire responsabilmente · Dalle risposte alle azioni</span>
+<h1 id="title-14">🤖 Gli agenti autonomi</h1>
+<p class="lead">Un agente combina un modello con una memoria, strumenti, regole e un ciclo di controllo. Non si limita a spiegare come fare qualcosa: può provare a farla in un ambiente autorizzato.</p>
+<div class="kid-box">
+<span class="box-title">🧰 Il robot con la cassetta degli attrezzi</span>
+          Un chatbot può dirti come aggiustare una bicicletta. Un agente digitale può aprire i file di un progetto, scrivere codice, eseguire test, osservare un errore e tentare una correzione.
+        </div>
+<div class="demo-panel">
+<h2>🚦 Simula una missione</h2>
+<p>Obiettivo: trovare e correggere un errore in un piccolo programma.</p>
+<div aria-label="Ciclo di lavoro dell'agente" class="agent-flow" id="agentFlow">
+<div class="agent-step" data-agent-step="0">🗺️<br/>Piano</div>
+<div class="agent-step" data-agent-step="1">🛠️<br/>Azione</div>
+<div class="agent-step" data-agent-step="2">👀<br/>Osservazione</div>
+<div class="agent-step" data-agent-step="3">🔁<br/>Correzione</div>
+<div class="agent-step" data-agent-step="4">✅<br/>Verifica</div>
+</div>
+<div class="button-row">
+<button class="primary-button" id="agentNextButton" type="button">Esegui il prossimo passo</button>
+<button id="agentResetButton" type="button">Ricomincia</button>
+</div>
+<div aria-live="polite" class="feedback" id="agentFeedback">La missione non è ancora iniziata.</div>
+</div>
+<h2>🧰 Quali strumenti può usare?</h2>
+<ul>
+<li>Un browser per cercare e leggere pagine.</li>
+<li>Un ambiente di codice per scrivere ed eseguire programmi.</li>
+<li>Applicazioni e interfacce del computer, quando l'agente è autorizzato.</li>
+<li>API e database con permessi precisi.</li>
+</ul>
+<div class="warning-box">
+<span class="box-title">🛑 Più potere richiede più regole</span>
+          Preparare un'email non è uguale a inviarla. Leggere un file non è uguale a cancellarlo. Un agente affidabile deve avere limiti, ambienti protetti e momenti in cui chiedere conferma a una persona.
+        </div><div class="teacher-box">
+<span class="box-title">👤 La responsabilità rimane umana</span>
+  L'IA può proporre una diagnosi da controllare, preparare un messaggio o suggerire una decisione. Non diventa per questo il medico, l'insegnante, il genitore o la persona responsabile del lavoro. Le decisioni importanti devono restare affidate a persone competenti e identificabili.
+</div>
+<details>
+<summary>⏳ Come può lavorare per molto tempo?</summary>
+<div>
+<p>Non mantiene necessariamente un unico pensiero lunghissimo. Divide il progetto in sotto-obiettivi, salva lo stato, usa registri delle azioni e riprende dal punto corretto. È simile a un esploratore che aggiorna continuamente la propria mappa.</p>
+</div>
+</details>
+</section><section aria-labelledby="title-15" class="lesson" data-title="Missione finale" id="lesson-15">
+<span class="lesson-kicker">Tappa finale · Controlla ciò che hai imparato</span>
+<h1 id="title-15">🏆 Missione finale</h1>
+<p class="lead">Le domande mescolano l'uso responsabile e il funzionamento tecnico. Puoi correggere le scelte prima di calcolare il risultato.</p>
+<div id="quizContainer">
+<article class="quiz-question" data-correct="b">
+<h3>1. L'IA usa parole gentili e dice di essere triste. Che cosa possiamo concludere?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q1" type="radio" value="a"/> Prova sicuramente emozioni uguali alle nostre.</label>
+<label class="option-button"><input name="q1" type="radio" value="b"/> Sa generare linguaggio emotivo, ma questo non dimostra una coscienza umana.</label>
+<label class="option-button"><input name="q1" type="radio" value="c"/> Conosce sempre la verità.</label>
+</div>
+</article>
+<article class="quiz-question" data-correct="c">
+<h3>2. Una risposta è molto elegante e sicura. Significa che è vera?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q2" type="radio" value="a"/> Sì, lo stile sicuro dimostra la correttezza.</label>
+<label class="option-button"><input name="q2" type="radio" value="b"/> Sì, ma soltanto se è molto lunga.</label>
+<label class="option-button"><input name="q2" type="radio" value="c"/> No: bisogna controllare i fatti, le fonti e la data.</label>
+</div>
+</article>
+<article class="quiz-question" data-correct="a">
+<h3>3. Quale informazione non dobbiamo inserire senza un motivo valido e senza regole chiare?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q3" type="radio" value="a"/> Una password o il documento privato di un'altra persona.</label>
+<label class="option-button"><input name="q3" type="radio" value="b"/> Una domanda pubblica sulla fotosintesi.</label>
+<label class="option-button"><input name="q3" type="radio" value="c"/> Il titolo di una fiaba inventata.</label>
+</div>
+</article>
+<article class="quiz-question" data-correct="b">
+<h3>4. Se il modello ha visto quasi soltanto mele rosse, quale problema può avere?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q4" type="radio" value="a"/> Diventa automaticamente cattivo.</label>
+<label class="option-button"><input name="q4" type="radio" value="b"/> Può riconoscere male le mele verdi perché gli esempi erano sbilanciati.</label>
+<label class="option-button"><input name="q4" type="radio" value="c"/> Impara ogni colore senza esempi.</label>
+</div>
+</article>
+<article class="quiz-question" data-correct="b">
+<h3>5. Che cos'è un token?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q5" type="radio" value="a"/> Un fatto sempre vero.</label>
+<label class="option-button"><input name="q5" type="radio" value="b"/> Una piccola unità in cui il testo viene suddiviso.</label>
+<label class="option-button"><input name="q5" type="radio" value="c"/> Un programma che naviga sul web.</label>
+</div>
+</article>
+<article class="quiz-question" data-correct="c">
+<h3>6. A che cosa serve l'Attention?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q6" type="radio" value="a"/> A rendere sempre vera una risposta.</label>
+<label class="option-button"><input name="q6" type="radio" value="b"/> A colorare lo schermo.</label>
+<label class="option-button"><input name="q6" type="radio" value="c"/> A collegare le parti del contesto più utili.</label>
+</div>
+</article>
+<article class="quiz-question" data-correct="a">
+<h3>7. Che cosa fa un modello di reasoning?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q7" type="radio" value="a"/> Può usare più passaggi per pianificare, controllare e correggere.</label>
+<label class="option-button"><input name="q7" type="radio" value="b"/> Conosce sempre la risposta giusta.</label>
+<label class="option-button"><input name="q7" type="radio" value="c"/> Elimina la necessità di studiare.</label>
+</div>
+</article>
+<article class="quiz-question" data-correct="b">
+<h3>8. Che cosa significa multimodalità integrata?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q8" type="radio" value="a"/> Che i pixel e i suoni non diventano mai numeri.</label>
+<label class="option-button"><input name="q8" type="radio" value="b"/> Che testo, immagini, audio e video possono essere collegati nello stesso sistema.</label>
+<label class="option-button"><input name="q8" type="radio" value="c"/> Che il modello può soltanto creare immagini.</label>
+</div>
+</article>
+<article class="quiz-question" data-correct="c">
+<h3>9. Un agente deve cancellare “i file vecchi”. Qual è il problema?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q9" type="radio" value="a"/> Nessuno: può decidere da solo.</label>
+<label class="option-button"><input name="q9" type="radio" value="b"/> La frase è perfetta perché è breve.</label>
+<label class="option-button"><input name="q9" type="radio" value="c"/> Mancano la definizione di “vecchi”, le eccezioni, il backup e i permessi.</label>
+</div>
+</article>
+<article class="quiz-question" data-correct="a">
+<h3>10. Qual è l'istruzione migliore?</h3>
+<div class="quiz-options">
+<label class="option-button"><input name="q10" type="radio" value="a"/> Una richiesta con obiettivo, destinatario, vincoli, formato e verifica.</label>
+<label class="option-button"><input name="q10" type="radio" value="b"/> “Fai tutto bene e non sbagliare.”</label>
+<label class="option-button"><input name="q10" type="radio" value="c"/> “Indovina che cosa voglio.”</label>
+</div>
+</article>
+</div>
+<div class="button-row">
+<button class="primary-button" id="checkQuizButton" type="button">Calcola il risultato</button>
+<button id="resetQuizButton" type="button">Ricomincia il quiz</button>
+</div>
+<div aria-live="polite" class="feedback" id="quizResult">Il risultato apparirà qui.</div>
+<div class="success-box">
+<span class="box-title">🎓 Il diploma più importante</span>
+Non consiste nel ricordare ogni termine tecnico. Consiste nel sapere che l'IA non è una persona, può sbagliare in modo convincente, impara da esempi imperfetti e deve essere guidata con un contesto chiaro, verifiche, protezione dei dati e responsabilità umana.
+</div>
+</section><div aria-label="Navigazione fra le lezioni" class="lesson-controls">
+<button id="previousButton" type="button">← Tappa precedente</button>
+<p class="keyboard-help">Puoi usare anche i tasti ← e → quando non stai scrivendo in un campo.</p>
+<button class="primary-button" id="nextButton" type="button">Tappa successiva →</button>
+</div>
+</main>
+</div>
+<div aria-live="polite" class="sr-only" id="liveRegion"></div>
+<script>
+    (() => {
+      "use strict";
+
+      const lessons = Array.from(document.querySelectorAll(".lesson"));
+      const chapterButtons = Array.from(document.querySelectorAll(".chapter-button"));
+      const progressBar = document.getElementById("progressBar");
+      const progressTitle = document.getElementById("progressTitle");
+      const progressText = document.getElementById("progressText");
+      const progressTrack = document.querySelector(".progress-track");
+      const mobileProgressBar = document.getElementById("mobileProgressBar");
+      const mobileProgressTitle = document.getElementById("mobileProgressTitle");
+      const mobileProgressText = document.getElementById("mobileProgressText");
+      const mobileMenuButton = document.getElementById("mobileMenuButton");
+      const mobileMenuClose = document.getElementById("mobileMenuClose");
+      const mobileDrawer = document.getElementById("mobileDrawer");
+      const mobileDrawerOverlay = document.getElementById("mobileDrawerOverlay");
+      const mobileMediaQuery = window.matchMedia("(max-width: 1000px)");
+      const previousButton = document.getElementById("previousButton");
+      const nextButton = document.getElementById("nextButton");
+      const content = document.getElementById("contenuto");
+      const liveRegion = document.getElementById("liveRegion");
+      let currentLesson = 0;
+      let fontSize = 18;
+      progressTrack.setAttribute("aria-valuemax", String(lessons.length));
+
+      function setMobileMenu(open, restoreFocus = true) {
+        const shouldOpen = Boolean(open && mobileMediaQuery.matches);
+        mobileDrawer.classList.toggle("mobile-open", shouldOpen);
+        document.body.classList.toggle("mobile-menu-open", shouldOpen);
+        mobileMenuButton.setAttribute("aria-expanded", String(shouldOpen));
+        mobileDrawerOverlay.hidden = !shouldOpen;
+
+        if (shouldOpen) {
+          window.setTimeout(() => mobileMenuClose.focus(), 0);
+          liveRegion.textContent = "Menu delle tappe aperto.";
+        } else if (restoreFocus && mobileMediaQuery.matches) {
+          mobileMenuButton.focus();
+          liveRegion.textContent = "Menu delle tappe chiuso.";
+        }
+      }
+
+      mobileMenuButton.addEventListener("click", () => {
+        setMobileMenu(!mobileDrawer.classList.contains("mobile-open"));
+      });
+      mobileMenuClose.addEventListener("click", () => setMobileMenu(false));
+      mobileDrawerOverlay.addEventListener("click", () => setMobileMenu(false));
+      const handleMobileMediaChange = (event) => {
+        if (!event.matches) setMobileMenu(false, false);
+      };
+
+      // Safari meno recente usa addListener invece di addEventListener
+      // sulle MediaQueryList. Il fallback evita che l'intero script si interrompa.
+      if (typeof mobileMediaQuery.addEventListener === "function") {
+        mobileMediaQuery.addEventListener("change", handleMobileMediaChange);
+      } else if (typeof mobileMediaQuery.addListener === "function") {
+        mobileMediaQuery.addListener(handleMobileMediaChange);
+      }
+
+      function showLesson(index, focusContent = true) {
+        const safeIndex = Math.max(0, Math.min(index, lessons.length - 1));
+        currentLesson = safeIndex;
+
+        lessons.forEach((lesson, lessonIndex) => {
+          const isActive = lessonIndex === safeIndex;
+          lesson.classList.toggle("active", isActive);
+          lesson.setAttribute("aria-hidden", String(!isActive));
+        });
+
+        chapterButtons.forEach((button, buttonIndex) => {
+          const isActive = buttonIndex === safeIndex;
+          button.classList.toggle("active", isActive);
+          button.setAttribute("aria-current", isActive ? "step" : "false");
+        });
+
+        const title = lessons[safeIndex].dataset.title;
+        const percentage = ((safeIndex + 1) / lessons.length) * 100;
+        progressBar.style.width = `${percentage}%`;
+        mobileProgressBar.style.width = `${percentage}%`;
+        progressTitle.textContent = title;
+        mobileProgressTitle.textContent = title;
+        progressText.textContent = `${safeIndex + 1} di ${lessons.length}`;
+        mobileProgressText.textContent = `${safeIndex + 1} di ${lessons.length}`;
+        progressTrack.setAttribute("aria-valuenow", String(safeIndex + 1));
+        previousButton.disabled = safeIndex === 0;
+        nextButton.disabled = safeIndex === lessons.length - 1;
+        nextButton.textContent = safeIndex === lessons.length - 2 ? "Vai alla missione finale →" : "Tappa successiva →";
+
+        // Alcune anteprime locali di Safari limitano history.replaceState.
+        // La navigazione deve continuare anche quando l'HTML è aperto da File.
+        try {
+          history.replaceState(null, "", `#tappa-${safeIndex}`);
+        } catch (error) {
+          // Il frammento URL è accessorio: non deve bloccare il cambio di tappa.
+        }
+        liveRegion.textContent = `Tappa ${safeIndex + 1}: ${title}`;
+
+        if (focusContent) {
+          try {
+            content.focus({ preventScroll: true });
+          } catch (error) {
+            content.focus();
+          }
+
+          try {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } catch (error) {
+            window.scrollTo(0, 0);
+          }
+        }
+      }
+
+      chapterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          showLesson(Number(button.dataset.lesson));
+          if (mobileMediaQuery.matches) setMobileMenu(false, false);
+        });
+      });
+
+      previousButton.addEventListener("click", () => showLesson(currentLesson - 1));
+      nextButton.addEventListener("click", () => showLesson(currentLesson + 1));
+
+      document.addEventListener("keydown", (event) => {
+        const tag = document.activeElement ? document.activeElement.tagName : "";
+        const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(tag);
+        if (event.key === "Escape" && mobileDrawer.classList.contains("mobile-open")) {
+          setMobileMenu(false);
+          return;
+        }
+        if (isTyping || mobileDrawer.classList.contains("mobile-open")) return;
+        if (event.key === "ArrowLeft") showLesson(currentLesson - 1);
+        if (event.key === "ArrowRight") showLesson(currentLesson + 1);
+      });
+
+      const increaseTextButtons = [
+        document.getElementById("increaseText"),
+        document.getElementById("increaseTextMobile")
+      ];
+      const decreaseTextButtons = [
+        document.getElementById("decreaseText"),
+        document.getElementById("decreaseTextMobile")
+      ];
+      const contrastToggles = [
+        document.getElementById("contrastToggle"),
+        document.getElementById("contrastToggleMobile")
+      ];
+      const speakButtons = [
+        document.getElementById("speakButton"),
+        document.getElementById("speakButtonMobile")
+      ];
+      const stopSpeakButtons = [
+        document.getElementById("stopSpeakButton"),
+        document.getElementById("stopSpeakButtonMobile")
+      ];
+
+      increaseTextButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          fontSize = Math.min(25, fontSize + 1);
+          document.documentElement.style.setProperty("--base-size", `${fontSize}px`);
+          liveRegion.textContent = `Dimensione del testo: ${fontSize} pixel`;
+        });
+      });
+
+      decreaseTextButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          fontSize = Math.max(16, fontSize - 1);
+          document.documentElement.style.setProperty("--base-size", `${fontSize}px`);
+          liveRegion.textContent = `Dimensione del testo: ${fontSize} pixel`;
+        });
+      });
+
+      contrastToggles.forEach((button) => {
+        button.addEventListener("click", () => {
+          const active = document.body.classList.toggle("high-contrast");
+          contrastToggles.forEach((toggle) => toggle.setAttribute("aria-pressed", String(active)));
+          liveRegion.textContent = active ? "Alto contrasto attivato" : "Alto contrasto disattivato";
+        });
+      });
+
+      function speakCurrentLesson() {
+        if (!("speechSynthesis" in window)) {
+          liveRegion.textContent = "La lettura vocale non è disponibile in questo browser.";
+          return;
+        }
+        window.speechSynthesis.cancel();
+        const visibleLesson = lessons[currentLesson];
+        const text = visibleLesson.innerText.replace(/\s+/g, " ").trim();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "it-IT";
+        utterance.rate = 0.92;
+        window.speechSynthesis.speak(utterance);
+        liveRegion.textContent = "Lettura vocale avviata.";
+      }
+
+      speakButtons.forEach((button) => button.addEventListener("click", speakCurrentLesson));
+      stopSpeakButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+          liveRegion.textContent = "Lettura vocale fermata.";
+        });
+      });
+
+      const tokenExamples = {
+        common: {
+          text: "Il piccolo robot corre velocemente!",
+          note: "La parola lunga «velocemente» viene mostrata come «veloce» + «mente»: una possibile suddivisione in radice e suffisso. La punteggiatura diventa un mattoncino separato."
+        },
+        rare: {
+          text: "Supercalifragilistichespiralidoso 123456789!",
+          note: "La parola inventata viene spezzata in molti pezzi riutilizzabili; il numero lungo viene diviso in gruppi di tre cifre e il punto esclamativo resta separato."
+        }
+      };
+
+      const didacticWordSplits = new Map([
+        ["velocemente", ["veloce", "mente"]],
+        ["supercalifragilistichespiralidoso", ["Super", "cali", "fragil", "istiche", "spira", "lido", "so"]]
+      ]);
+
+      function splitLongWord(word) {
+        const knownSplit = didacticWordSplits.get(word.toLocaleLowerCase("it"));
+        if (knownSplit) return knownSplit;
+
+        if (word.length <= 8) return [word];
+
+        const suffixes = ["mente", "zione", "zioni", "issimo", "issima", "amento", "imenti", "ante", "ente", "anti"];
+        const lowerWord = word.toLocaleLowerCase("it");
+        const suffix = suffixes.find((item) => lowerWord.endsWith(item) && word.length - item.length >= 4);
+        if (suffix) {
+          return [word.slice(0, -suffix.length), word.slice(-suffix.length)];
+        }
+
+        const pieces = [];
+        let position = 0;
+        while (position < word.length) {
+          const remaining = word.length - position;
+          const size = remaining > 8 ? 4 : remaining > 5 ? 3 : remaining;
+          pieces.push(word.slice(position, position + size));
+          position += size;
+        }
+        return pieces;
+      }
+
+      function simulateTokenization(text) {
+        const rawParts = text.match(/[A-Za-zÀ-ÖØ-öø-ÿ]+|\d+|[^\sA-Za-zÀ-ÖØ-öø-ÿ\d]/g) || [];
+        const results = [];
+
+        rawParts.forEach((part) => {
+          if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+$/.test(part)) {
+            const pieces = splitLongWord(part);
+            pieces.forEach((piece) => {
+              results.push({ text: piece, type: pieces.length > 1 ? "subword" : "word" });
+            });
+          } else if (/^\d{7,}$/.test(part)) {
+            const groups = part.match(/.{1,3}/g) || [part];
+            groups.forEach((group) => results.push({ text: group, type: "number" }));
+          } else {
+            results.push({ text: part, type: /^\d+$/.test(part) ? "number" : "punctuation" });
+          }
+        });
+
+        return results;
+      }
+
+      function renderTokenExample(exampleName) {
+        const example = tokenExamples[exampleName];
+        const output = document.getElementById("tokenOutput");
+        const tokens = simulateTokenization(example.text);
+        output.replaceChildren();
+
+        const source = document.createElement("p");
+        const sourceLabel = document.createElement("strong");
+        sourceLabel.textContent = "Testo di partenza: ";
+        source.append(sourceLabel, example.text);
+        output.appendChild(source);
+
+        const tokenLine = document.createElement("div");
+        tokens.forEach(({ text: tokenText, type }) => {
+          const token = document.createElement("span");
+          token.className = "token";
+          if (type === "subword") token.classList.add("subword-token");
+          if (type === "number") token.classList.add("number-token");
+          token.textContent = tokenText;
+          tokenLine.appendChild(token);
+        });
+        output.appendChild(tokenLine);
+
+        const count = document.createElement("p");
+        count.textContent = `Simulazione: ${tokens.length} mattoncini.`;
+        output.appendChild(count);
+
+        const explanation = document.createElement("p");
+        explanation.textContent = example.note;
+        output.appendChild(explanation);
+      }
+
+      const commonTokenButton = document.getElementById("commonTokenButton");
+      const rareTokenButton = document.getElementById("rareTokenButton");
+
+      commonTokenButton.addEventListener("click", () => {
+        commonTokenButton.classList.add("primary-button");
+        rareTokenButton.classList.remove("primary-button");
+        renderTokenExample("common");
+      });
+
+      rareTokenButton.addEventListener("click", () => {
+        rareTokenButton.classList.add("primary-button");
+        commonTokenButton.classList.remove("primary-button");
+        renderTokenExample("rare");
+      });
+
+      renderTokenExample("common");
+
+      const vectorData = {
+        cane: { animal: 98, home: 95, bark: 99 },
+        gatto: { animal: 97, home: 93, bark: 5 },
+        astronave: { animal: 1, home: 1, bark: 0 }
+      };
+
+      function renderVector(name) {
+        const data = vectorData[name];
+        Object.entries(data).forEach(([key, value]) => {
+          document.querySelector(`[data-bar="${key}"]`).style.width = `${value}%`;
+          document.querySelector(`[data-value="${key}"]`).textContent = `${value}%`;
+        });
+        document.querySelectorAll(".vector-choice").forEach((button) => {
+          button.classList.toggle("active", button.dataset.vector === name);
+          button.setAttribute("aria-pressed", String(button.dataset.vector === name));
+        });
+      }
+
+      document.querySelectorAll(".vector-choice").forEach((button) => {
+        button.addEventListener("click", () => renderVector(button.dataset.vector));
+      });
+      renderVector("cane");
+
+      const attentionWords = ["Il", "capo", "dell'azienda", "ha", "comprato", "un", "bellissimo", "capo", "d'abbigliamento."];
+      const attentionSentence = document.getElementById("attentionSentence");
+
+      attentionWords.forEach((word, index) => {
+        const chip = document.createElement("span");
+        chip.className = "word-chip";
+        chip.dataset.wordIndex = String(index);
+        chip.textContent = word;
+        attentionSentence.appendChild(chip);
+      });
+
+      function highlightAttention(target) {
+        const chips = Array.from(attentionSentence.children);
+        chips.forEach((chip) => chip.classList.remove("target", "related"));
+        const feedback = document.getElementById("attentionFeedback");
+        if (target === "first") {
+          chips[1].classList.add("target");
+          chips[2].classList.add("related");
+          feedback.textContent = "La prima occorrenza di «capo» si collega soprattutto a «dell'azienda»: qui significa dirigente.";
+        } else {
+          chips[7].classList.add("target");
+          chips[6].classList.add("related");
+          chips[8].classList.add("related");
+          feedback.textContent = "La seconda occorrenza di «capo» si collega a «bellissimo» e «d'abbigliamento»: qui significa vestito.";
+        }
+      }
+
+      document.getElementById("firstCapoButton").addEventListener("click", () => highlightAttention("first"));
+      document.getElementById("secondCapoButton").addEventListener("click", () => highlightAttention("second"));
+
+      const weightSlider = document.getElementById("weightSlider");
+      function updateWeight() {
+        const value = Number(weightSlider.value);
+        document.getElementById("weightValue").textContent = String(value);
+        let message = "";
+        if (value < 25) message = "La connessione attenua quasi tutto il segnale.";
+        else if (value < 60) message = "La connessione lascia passare una parte del segnale.";
+        else if (value < 90) message = "La connessione amplifica molto questa informazione.";
+        else message = "In questa connessione immaginaria, l'informazione diventa dominante.";
+        document.getElementById("weightFeedback").textContent = message;
+      }
+      weightSlider.addEventListener("input", updateWeight);
+      updateWeight();
+
+      const temperatureSlider = document.getElementById("temperatureSlider");
+      const softmaxWheel = document.getElementById("softmaxWheel");
+      const wheelSlices = document.getElementById("wheelSlices");
+      const spinSoftmaxWheel = document.getElementById("spinSoftmaxWheel");
+      const softmaxWheelResult = document.getElementById("softmaxWheelResult");
+      const wheelOptions = [
+        { key: "cuccia", label: "cuccia", logit: 3.2 },
+        { key: "casa", label: "casa", logit: 2.0 },
+        { key: "nuvola", label: "nuvola", logit: 0.7 }
+      ];
+      let currentWheelProbabilities = [];
+      let wheelRotation = 0;
+      let wheelSpinning = false;
+      let wheelTicketBag = [];
+      let wheelTicketPosition = 0;
+      let wheelHistory = [];
+      const wheelBagSize = 20;
+
+      function polarPoint(cx, cy, radius, angleDegrees) {
+        const angleRadians = (angleDegrees - 90) * Math.PI / 180;
+        return {
+          x: cx + radius * Math.cos(angleRadians),
+          y: cy + radius * Math.sin(angleRadians)
+        };
+      }
+
+      function describeWheelSlice(startAngle, endAngle) {
+        const center = 180;
+        const radius = 165;
+        const startPoint = polarPoint(center, center, radius, startAngle);
+        const endPoint = polarPoint(center, center, radius, endAngle);
+        const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+        return `M ${center} ${center} L ${startPoint.x.toFixed(3)} ${startPoint.y.toFixed(3)} A ${radius} ${radius} 0 ${largeArc} 1 ${endPoint.x.toFixed(3)} ${endPoint.y.toFixed(3)} Z`;
+      }
+
+      function roundedPercentages(probabilities) {
+        const raw = probabilities.map((probability) => probability * 100);
+        const rounded = raw.map(Math.floor);
+        const order = raw
+          .map((value, index) => ({ index, remainder: value - Math.floor(value) }))
+          .sort((a, b) => b.remainder - a.remainder);
+        let missing = 100 - rounded.reduce((sum, value) => sum + value, 0);
+        for (let index = 0; index < missing; index += 1) {
+          rounded[order[index].index] += 1;
+        }
+        return rounded;
+      }
+
+      function calculateSoftmaxProbabilities(temperature) {
+        const scaled = wheelOptions.map((option) => option.logit / temperature);
+        const maximum = Math.max(...scaled);
+        const exponentials = scaled.map((value) => Math.exp(value - maximum));
+        const total = exponentials.reduce((sum, value) => sum + value, 0);
+        return exponentials.map((value) => value / total);
+      }
+
+      function drawSoftmaxWheel(probabilities, percentages) {
+        wheelSlices.replaceChildren();
+        let startAngle = 0;
+
+        probabilities.forEach((probability, index) => {
+          const option = wheelOptions[index];
+          const sliceAngle = probability * 360;
+          const endAngle = startAngle + sliceAngle;
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          path.setAttribute("class", "wheel-slice");
+          path.setAttribute("data-wheel-key", option.key);
+          path.setAttribute("d", describeWheelSlice(startAngle, endAngle));
+          path.setAttribute("aria-label", `${option.label}: ${percentages[index]} per cento`);
+          wheelSlices.appendChild(path);
+
+          if (sliceAngle >= 18) {
+            const labelRadius = sliceAngle > 115 ? 103 : 117;
+            const labelPoint = polarPoint(180, 180, labelRadius, startAngle + sliceAngle / 2);
+            const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            label.setAttribute("class", "wheel-slice-label");
+            label.setAttribute("x", labelPoint.x.toFixed(2));
+            label.setAttribute("y", labelPoint.y.toFixed(2));
+
+            const nameLine = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+            nameLine.setAttribute("x", labelPoint.x.toFixed(2));
+            nameLine.setAttribute("dy", "-0.25em");
+            nameLine.textContent = option.label;
+
+            const valueLine = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+            valueLine.setAttribute("x", labelPoint.x.toFixed(2));
+            valueLine.setAttribute("dy", "1.2em");
+            valueLine.textContent = `${percentages[index]}%`;
+
+            label.append(nameLine, valueLine);
+            wheelSlices.appendChild(label);
+          }
+
+          startAngle = endAngle;
+        });
+      }
+
+      function updateTemperature() {
+        const sliderRatio = Number(temperatureSlider.value) / 100;
+        const temperature = 0.35 + sliderRatio * 1.85;
+        currentWheelProbabilities = calculateSoftmaxProbabilities(temperature);
+        const percentages = roundedPercentages(currentWheelProbabilities);
+        buildWheelTicketBag(currentWheelProbabilities);
+        wheelHistory = [];
+        renderWheelHistory();
+
+        wheelOptions.forEach((option, index) => {
+          const probability = percentages[index];
+          document.querySelector(`[data-prob="${option.key}"]`).style.width = `${probability}%`;
+          document.querySelector(`[data-prob-value="${option.key}"]`).textContent = `${probability}%`;
+        });
+
+        drawSoftmaxWheel(currentWheelProbabilities, percentages);
+        const label = sliderRatio < 0.25 ? "molto bassa" : sliderRatio < 0.55 ? "equilibrata" : sliderRatio < 0.8 ? "creativa" : "molto alta";
+        document.getElementById("temperatureLabel").textContent = label;
+        document.getElementById("temperatureValue").textContent = `T = ${temperature.toFixed(2).replace(".", ",")}`;
+        if (!wheelSpinning) {
+          const counts = ticketCounts(currentWheelProbabilities, wheelBagSize);
+          softmaxWheelResult.textContent = `Nuova serie pronta: ${counts[0]} biglietti con «cuccia», ${counts[1]} con «casa» e ${counts[2]} con «nuvola».`;
+        }
+      }
+
+      function shuffleArray(values) {
+        const shuffled = values.slice();
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+          const randomIndex = Math.floor(Math.random() * (index + 1));
+          [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+        }
+        return shuffled;
+      }
+
+      function ticketCounts(probabilities, totalTickets) {
+        const exactCounts = probabilities.map((probability) => probability * totalTickets);
+        const counts = exactCounts.map(Math.floor);
+        const order = exactCounts
+          .map((value, index) => ({ index, remainder: value - Math.floor(value) }))
+          .sort((a, b) => b.remainder - a.remainder);
+        let missing = totalTickets - counts.reduce((sum, value) => sum + value, 0);
+        for (let index = 0; index < missing; index += 1) {
+          counts[order[index % order.length].index] += 1;
+        }
+        return counts;
+      }
+
+      function softenLongStreaks(sequence) {
+        const adjusted = sequence.slice();
+        for (let index = 2; index < adjusted.length; index += 1) {
+          if (adjusted[index] === adjusted[index - 1] && adjusted[index] === adjusted[index - 2]) {
+            const swapIndex = adjusted.findIndex((value, candidateIndex) => candidateIndex > index && value !== adjusted[index]);
+            if (swapIndex !== -1) {
+              [adjusted[index], adjusted[swapIndex]] = [adjusted[swapIndex], adjusted[index]];
+            }
+          }
+        }
+        return adjusted;
+      }
+
+      function buildWheelTicketBag(probabilities) {
+        const counts = ticketCounts(probabilities, wheelBagSize);
+        const tickets = [];
+        counts.forEach((count, optionIndex) => {
+          for (let index = 0; index < count; index += 1) tickets.push(optionIndex);
+        });
+        wheelTicketBag = softenLongStreaks(shuffleArray(tickets));
+        wheelTicketPosition = 0;
+      }
+
+      function chooseDemonstrationOption() {
+        if (wheelTicketPosition >= wheelTicketBag.length) {
+          buildWheelTicketBag(currentWheelProbabilities);
+        }
+
+        const lastResult = wheelHistory.at(-1);
+        const previousResult = wheelHistory.at(-2);
+        const nextResult = wheelTicketBag[wheelTicketPosition];
+
+        if (lastResult === previousResult && nextResult === lastResult) {
+          const alternativeIndex = wheelTicketBag.findIndex(
+            (value, index) => index > wheelTicketPosition && value !== lastResult
+          );
+          if (alternativeIndex !== -1) {
+            [wheelTicketBag[wheelTicketPosition], wheelTicketBag[alternativeIndex]] =
+              [wheelTicketBag[alternativeIndex], wheelTicketBag[wheelTicketPosition]];
+          }
+        }
+
+        const selectedIndex = wheelTicketBag[wheelTicketPosition];
+        wheelTicketPosition += 1;
+        return selectedIndex;
+      }
+
+      function renderWheelHistory() {
+        const container = document.getElementById("softmaxWheelHistory");
+        container.replaceChildren();
+        wheelHistory.slice(-8).forEach((optionIndex) => {
+          const option = wheelOptions[optionIndex];
+          const chip = document.createElement("span");
+          chip.className = "wheel-history-chip";
+          chip.dataset.result = option.key;
+          chip.textContent = option.label;
+          container.appendChild(chip);
+        });
+      }
+
+      function spinWheel() {
+        if (wheelSpinning) return;
+        wheelSpinning = true;
+        temperatureSlider.disabled = true;
+        spinSoftmaxWheel.disabled = true;
+        softmaxWheelResult.textContent = "La ruota gira seguendo le probabilità correnti…";
+
+        const selectedIndex = chooseDemonstrationOption();
+        let sectorStart = 0;
+        for (let index = 0; index < selectedIndex; index += 1) {
+          sectorStart += currentWheelProbabilities[index] * 360;
+        }
+        const sectorSize = currentWheelProbabilities[selectedIndex] * 360;
+        const safeMargin = Math.min(8, sectorSize * 0.18);
+        const usableSize = Math.max(0, sectorSize - safeMargin * 2);
+        const targetAngle = sectorStart + safeMargin + Math.random() * usableSize;
+        const currentNormalized = ((wheelRotation % 360) + 360) % 360;
+        const targetNormalized = (360 - targetAngle) % 360;
+        const delta = (targetNormalized - currentNormalized + 360) % 360;
+        wheelRotation += 5 * 360 + delta;
+        softmaxWheel.style.transform = `rotate(${wheelRotation}deg)`;
+
+        window.setTimeout(() => {
+          const selected = wheelOptions[selectedIndex];
+          const percentage = Math.round(currentWheelProbabilities[selectedIndex] * 100);
+          wheelHistory.push(selectedIndex);
+          renderWheelHistory();
+          softmaxWheelResult.textContent = `La freccia ha scelto «${selected.label}». Il suo spicchio vale circa il ${percentage}%. Estrazione ${wheelTicketPosition} di ${wheelBagSize} dal sacchetto didattico.`;
+          wheelSpinning = false;
+          temperatureSlider.disabled = false;
+          spinSoftmaxWheel.disabled = false;
+        }, 3900);
+      }
+
+      temperatureSlider.addEventListener("input", updateTemperature);
+      spinSoftmaxWheel.addEventListener("click", spinWheel);
+      updateTemperature();
+
+      document.querySelectorAll("#catPuzzle .option-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("#catPuzzle .option-button").forEach((item) => item.classList.remove("correct", "incorrect"));
+          const answer = button.dataset.answer;
+          if (answer === "4") {
+            button.classList.add("correct");
+            document.getElementById("catFeedback").textContent = "Esatto! Sono sempre gli stessi quattro gatti: ciascuno vede gli altri tre.";
+          } else {
+            button.classList.add("incorrect");
+            document.getElementById("catFeedback").textContent = "Questa risposta aggiunge gatti che la frase non ha introdotto. Immagina i quattro angoli dall'alto e riprova.";
+          }
+        });
+      });
+
+      document.querySelectorAll(".tone-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const tone = button.dataset.tone;
+          document.getElementById("toneFeedback").textContent = tone === "sincero"
+            ? "Con un tono caldo e allegro, la frase comunica un'approvazione sincera."
+            : "Con un tono piatto o esagerato, la stessa frase può significare il contrario: una critica ironica.";
+        });
+      });
+
+      const modalityDescriptions = {
+        text: "La parola «gatto» e le frasi che lo descrivono.",
+        image: "Forma delle orecchie, baffi, occhi e posizione del corpo.",
+        audio: "Miagolio, fusa e rumori dell'ambiente.",
+        video: "Movimento, direzione dello sguardo e ordine delle azioni."
+      };
+      const activeModalities = new Set();
+
+      function updateSharedSpace() {
+        const sharedSpace = document.getElementById("sharedSpace");
+        const details = Array.from(activeModalities).map((mode) => modalityDescriptions[mode]);
+        sharedSpace.innerHTML = "";
+        const title = document.createElement("strong");
+        title.textContent = "Concetto condiviso: 🐱 GATTO";
+        const description = document.createElement("p");
+        description.textContent = details.length > 0
+          ? details.join(" ")
+          : "Attiva almeno una modalità per vedere quali informazioni può offrire.";
+        sharedSpace.append(title, description);
+      }
+
+      document.querySelectorAll(".modality-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const mode = button.dataset.mode;
+          if (activeModalities.has(mode)) activeModalities.delete(mode);
+          else activeModalities.add(mode);
+          const active = activeModalities.has(mode);
+          button.setAttribute("aria-pressed", String(active));
+          button.classList.toggle("active", active);
+          updateSharedSpace();
+        });
+      });
+
+      const agentMessages = [
+        "Piano: individuo i file coinvolti e preparo un elenco di controlli.",
+        "Azione: apro il codice ed eseguo il test che riproduce il problema.",
+        "Osservazione: il test fallisce perché una variabile contiene il valore sbagliato.",
+        "Correzione: modifico il punto preciso e aggiungo un controllo per evitare che l'errore si ripresenti.",
+        "Verifica: rieseguo tutti i test. Ora passano, quindi preparo un riepilogo per la persona responsabile."
+      ];
+      let agentIndex = -1;
+
+      function renderAgent() {
+        document.querySelectorAll(".agent-step").forEach((step, index) => {
+          step.classList.toggle("active", index === agentIndex);
+        });
+        document.getElementById("agentFeedback").textContent = agentIndex >= 0
+          ? agentMessages[agentIndex]
+          : "La missione non è ancora iniziata.";
+        document.getElementById("agentNextButton").textContent = agentIndex === agentMessages.length - 1
+          ? "Missione completata"
+          : "Esegui il prossimo passo";
+      }
+
+      document.getElementById("agentNextButton").addEventListener("click", () => {
+        if (agentIndex < agentMessages.length - 1) agentIndex += 1;
+        renderAgent();
+      });
+      document.getElementById("agentResetButton").addEventListener("click", () => {
+        agentIndex = -1;
+        renderAgent();
+      });
+      renderAgent();
+
+      function buildPrompt() {
+        const goal = document.getElementById("goalInput").value.trim();
+        const audience = document.getElementById("audienceInput").value.trim();
+        const rules = document.getElementById("rulesInput").value.trim();
+        const format = document.getElementById("formatInput").value.trim();
+        const missing = [];
+        if (!goal) missing.push("obiettivo");
+        if (!audience) missing.push("destinatario e contesto");
+        if (!rules) missing.push("regole");
+        if (!format) missing.push("formato");
+        const preview = document.getElementById("promptPreview");
+        if (missing.length > 0) {
+          preview.textContent = `Mancano: ${missing.join(", ")}. Completa i campi per costruire una richiesta controllabile.`;
+          return;
+        }
+        preview.textContent = `OBIETTIVO\n${goal}.\n\nDESTINATARIO E CONTESTO\nRivolgiti ${audience}.\n\nREGOLE\n${rules}\n\nFORMATO DEL RISULTATO\n${format}\n\nVERIFICA FINALE\nControlla che ogni regola sia stata rispettata e segnala chiaramente eventuali dubbi o informazioni non verificate.`;
+      }
+
+      document.getElementById("buildPromptButton").addEventListener("click", buildPrompt);
+      document.getElementById("clearPromptButton").addEventListener("click", () => {
+        ["goalInput", "audienceInput", "rulesInput", "formatInput"].forEach((id) => {
+          document.getElementById(id).value = "";
+        });
+        document.getElementById("promptPreview").textContent = "La tua istruzione completa apparirà qui.";
+      });
+
+      document.getElementById("checkQuizButton").addEventListener("click", () => {
+        const questions = Array.from(document.querySelectorAll(".quiz-question"));
+        let score = 0;
+        let answered = 0;
+        questions.forEach((question) => {
+          const selected = question.querySelector("input:checked");
+          const labels = question.querySelectorAll("label");
+          labels.forEach((label) => label.classList.remove("correct", "incorrect"));
+          if (!selected) return;
+          answered += 1;
+          const selectedLabel = selected.closest("label");
+          if (selected.value === question.dataset.correct) {
+            score += 1;
+            selectedLabel.classList.add("correct");
+          } else {
+            selectedLabel.classList.add("incorrect");
+          }
+        });
+        const result = document.getElementById("quizResult");
+        if (answered < questions.length) {
+          result.textContent = `Hai risposto a ${answered} domande su ${questions.length}. Completa quelle mancanti.`;
+        } else if (score === questions.length) {
+          result.textContent = `🌟 Perfetto: ${score} su ${questions.length}! Sei un ottimo timoniere dell'IA.`;
+        } else if (score >= Math.ceil(questions.length * 0.7)) {
+          result.textContent = `👏 Hai ottenuto ${score} su ${questions.length}. Ottimo lavoro: rivedi le risposte evidenziate e riprova.`;
+        } else {
+          result.textContent = `🧭 Hai ottenuto ${score} su ${questions.length}. Torna alle tappe indicate dalla mappa e prova di nuovo.`;
+        }
+      });
+
+      document.getElementById("resetQuizButton").addEventListener("click", () => {
+        document.querySelectorAll("#quizContainer input").forEach((input) => {
+          input.checked = false;
+        });
+        document.querySelectorAll("#quizContainer label").forEach((label) => {
+          label.classList.remove("correct", "incorrect");
+        });
+        document.getElementById("quizResult").textContent = "Il risultato apparirà qui.";
+      });
+
+
+
+      // Salti guidati dalla pagina introduttiva.
+      document.querySelectorAll(".jump-button").forEach((button) => {
+        button.addEventListener("click", () => showLesson(Number(button.dataset.jump)));
+      });
+
+      // IA: persona o sistema di schemi?
+      document.querySelectorAll(".mind-choice").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll(".mind-choice").forEach((item) => item.classList.remove("correct", "incorrect"));
+          const correct = button.dataset.answer === "pattern";
+          button.classList.add(correct ? "correct" : "incorrect");
+          document.getElementById("mindFeedback").textContent = correct
+            ? "Esatto. Può produrre comportamenti molto sofisticati, ma non dobbiamo confonderli automaticamente con una mente umana."
+            : "Questa frase attribuisce alla macchina capacità che non possiamo dedurre soltanto dal modo in cui parla. Riprova.";
+        });
+      });
+
+      // Simulazione di dati sbilanciati.
+      let dataTrainingStage = 0;
+      document.getElementById("trainRedButton").addEventListener("click", () => {
+        dataTrainingStage = 1;
+        document.getElementById("dataFeedback").textContent = "Il robot ha imparato: le mele viste finora sono rotonde e rosse. La sua esperienza è molto limitata.";
+      });
+      document.getElementById("testGreenButton").addEventListener("click", () => {
+        document.getElementById("dataFeedback").textContent = dataTrainingStage === 0
+          ? "Prima devi mostrargli qualche esempio."
+          : dataTrainingStage === 1
+            ? "Il robot è incerto e può rifiutare la mela verde: gli esempi erano troppo simili."
+            : "Ora riconosce più facilmente anche la mela verde, perché ha visto una varietà maggiore di esempi.";
+      });
+      document.getElementById("trainDiverseButton").addEventListener("click", () => {
+        dataTrainingStage = 2;
+        document.getElementById("dataFeedback").textContent = "Hai aggiunto mele verdi, gialle, grandi e piccole. La scuola del robot è diventata più rappresentativa, anche se va ancora controllato.";
+      });
+
+      // Risposte convincenti e verifica.
+      document.querySelectorAll(".truth-choice").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll(".truth-choice").forEach((item) => item.classList.remove("correct", "incorrect"));
+          const correct = button.dataset.answer === "verify";
+          button.classList.add(correct ? "correct" : "incorrect");
+          document.getElementById("truthFeedback").textContent = correct
+            ? "Esatto. È più affidabile ammettere un limite e indicare una verifica, piuttosto che mostrare una sicurezza inventata."
+            : "Una frase sicura o ripetuta da molte persone non è ancora una prova. Servono fonti controllabili.";
+        });
+      });
+
+      // Tre fonti possibili per una risposta.
+      const sourceDescriptions = {
+        learned: "🧠 Nei pesi sono distribuiti schemi appresi durante l'allenamento. Possono essere incompleti o non aggiornati e non funzionano come un archivio perfetto di pagine.",
+        context: "📄 Il testo, l'immagine o il documento che fornisci entra nel contesto della richiesta. Il modello può analizzarlo, ma lo spazio è limitato e le istruzioni importanti devono essere chiare.",
+        tool: "🌐 Se dispone di uno strumento autorizzato, il sistema può cercare informazioni aggiornate o consultare un database. Bisogna comunque valutare la qualità, la data e l'affidabilità delle fonti."
+      };
+      function renderSource(name) {
+        document.getElementById("sourceDisplay").textContent = sourceDescriptions[name];
+        document.querySelectorAll(".source-button").forEach((button) => {
+          const active = button.dataset.source === name;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-pressed", String(active));
+        });
+      }
+      document.querySelectorAll(".source-button").forEach((button) => {
+        button.addEventListener("click", () => renderSource(button.dataset.source));
+      });
+      renderSource("learned");
+
+      // Privacy: esempi concreti.
+      document.querySelectorAll(".privacy-choice").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll(".privacy-choice").forEach((item) => item.classList.remove("correct", "incorrect"));
+          const answer = button.dataset.answer;
+          if (answer === "safe") {
+            button.classList.add("correct");
+            document.getElementById("privacyFeedback").textContent = "È una domanda generale e non contiene dati personali: normalmente è l'esempio più semplice da condividere.";
+          } else if (answer === "careful") {
+            button.classList.add("incorrect");
+            document.getElementById("privacyFeedback").textContent = "Prima bisogna rimuovere o proteggere nomi e dati personali e verificare le regole della scuola e del servizio.";
+          } else {
+            button.classList.add("incorrect");
+            document.getElementById("privacyFeedback").textContent = "Questa informazione è privata o appartiene a un'altra persona. Non va condivisa senza necessità, autorizzazione e protezioni adeguate.";
+          }
+        });
+      });
+
+      const hashMatch = window.location.hash.match(/tappa-(\d+)/);
+      const initialLesson = hashMatch ? Number(hashMatch[1]) : 0;
+      showLesson(initialLesson, false);
+    })();
+  </script>
+</body>
+</html>

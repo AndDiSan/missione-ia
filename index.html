@@ -1922,28 +1922,34 @@
 </section><section aria-labelledby="title-10" class="lesson" data-title="Inferenza" id="lesson-10">
 <span class="lesson-kicker">Tappa 10 · Dentro il motore · La ruota delle possibilità</span>
 <h1 id="title-10">🎡 Inferenza, Softmax e temperatura</h1>
-<p class="lead">Quando usiamo un modello già allenato, siamo nella fase di inferenza. Nella generazione testuale, il sistema calcola quali token potrebbero continuare meglio il testo.</p>
+<p class="lead">L’<strong>inferenza</strong> è il momento in cui un modello già allenato usa ciò che ha imparato per rispondere a una richiesta. Durante questa fase il modello, normalmente, non ricomincia l’addestramento e non riscrive i propri pesi: applica le connessioni già apprese al testo, all’immagine, all’audio o agli altri dati che riceve.</p>
+<h2>⚙️ Che cosa accade durante l’inferenza?</h2>
+<p>Nella generazione di una risposta testuale, il modello procede un token alla volta. Ogni nuovo token viene scelto attraverso un ciclo molto rapido:</p>
+<ol>
+<li>legge la richiesta e i token già presenti nella conversazione;</li>
+<li>usa l’Attention e gli altri strati del Transformer per costruire il contesto;</li>
+<li>assegna un punteggio ai token che potrebbero continuare la frase;</li>
+<li>usa la <strong>Softmax</strong> per trasformare quei punteggi in probabilità confrontabili;</li>
+<li>seleziona un token, lo aggiunge alla risposta e ripete il procedimento.</li>
+</ol>
+<p>Questo ciclo può avvenire molte volte in un secondo. È il meccanismo di base con cui il modello costruisce una frase, ma può essere inserito anche in attività più ampie: ragionare, consultare uno strumento, controllare un risultato e correggere un piano.</p>
 <div class="kid-box">
 <span class="box-title">🍕 Una pizza di probabilità</span>
-          Immagina una pizza divisa in spicchi. Ogni spicchio è una possibile parola. Le continuazioni più adatte ricevono spicchi più grandi. La funzione Softmax trasforma i punteggi grezzi in probabilità confrontabili.
-        </div>
-<h3>🌡️ Che cos’è la temperatura del modello?</h3>
-<p>
-Quando l’Intelligenza Artificiale deve scegliere il token successivo, non trova quasi mai una sola possibilità. Diverse parole possono completare correttamente la stessa frase, ma ciascuna riceve una probabilità differente.
-</p>
-<p>
-La <strong>temperatura</strong> è un parametro che modifica il modo in cui il modello utilizza queste probabilità. Non rappresenta il calore del computer e non rende l’IA più intelligente: regola quanto la scelta sarà prudente e prevedibile oppure varia e sorprendente.
-</p>
-<p>
-Possiamo immaginare le possibili parole come gli spicchi di una ruota della fortuna. Gli spicchi più grandi rappresentano le parole che il modello considera più probabili; quelli più piccoli rappresentano alternative meno comuni.
-</p>
+Immagina una pizza divisa in spicchi. Ogni spicchio rappresenta un possibile token successivo. Le continuazioni che il modello considera più adatte ricevono spicchi più grandi; quelle meno probabili ricevono spicchi più piccoli. La Softmax prepara questa distribuzione di probabilità.
+</div>
+<h2>🌡️ Che cos’è la temperatura?</h2>
+<p>La <strong>temperatura</strong> è un parametro che modifica la forma di questa distribuzione prima della scelta. Con una temperatura bassa, il modello si concentra maggiormente sulle opzioni più probabili. Con una temperatura alta, lascia più spazio anche alle alternative meno ovvie.</p>
+<p>La temperatura non cambia ciò che il modello ha imparato e non stabilisce se una risposta sia vera. Regola soprattutto il compromesso tra <strong>prevedibilità</strong> e <strong>varietà</strong>. In questo contesto, “creatività” significa esplorare combinazioni meno abituali di parole e idee, non possedere fantasia o ispirazione umana.</p>
+<details>
+<summary>🔎 Approfondimento: temperatura, creatività e allucinazioni</summary>
+<div>
+<h3>🌡️ Come agisce la temperatura del modello?</h3>
+<p>Quando l’Intelligenza Artificiale deve scegliere il token successivo, non trova quasi mai una sola possibilità. Diverse parole possono completare correttamente la stessa frase, ma ciascuna riceve una probabilità differente.</p>
+<p>La <strong>temperatura</strong> modifica il modo in cui il modello utilizza queste probabilità. Non rappresenta il calore del computer e non rende l’IA più intelligente: regola quanto la scelta sarà prudente e prevedibile oppure varia e sorprendente.</p>
+<p>Possiamo immaginare le possibili parole come gli spicchi di una ruota della fortuna. Gli spicchi più grandi rappresentano le parole che il modello considera più probabili; quelli più piccoli rappresentano alternative meno comuni.</p>
 <h3>🧊 Temperatura bassa: risposte più prevedibili</h3>
-<p>
-Con una temperatura bassa, lo spicchio della parola più probabile diventa ancora più grande, mentre gli altri si restringono. Il modello tende quindi a scegliere quasi sempre la continuazione più sicura e abituale.
-</p>
-<p>
-Questa impostazione è utile quando vogliamo:
-</p>
+<p>Con una temperatura bassa, lo spicchio della parola più probabile diventa ancora più grande, mentre gli altri si restringono. Il modello tende quindi a scegliere quasi sempre la continuazione più sicura e abituale.</p>
+<p>Questa impostazione è utile quando vogliamo:</p>
 <ul>
 <li>risposte precise e coerenti;</li>
 <li>spiegazioni tecniche;</li>
@@ -1951,19 +1957,11 @@ Questa impostazione è utile quando vogliamo:
 <li>codice informatico;</li>
 <li>testi che devono seguire regole molto rigide.</li>
 </ul>
-<p>
-Una temperatura bassa, però, non garantisce che ogni risposta sia vera. Il modello può comunque sbagliare se non possiede informazioni sufficienti, interpreta male la richiesta o utilizza conoscenze incomplete.
-</p>
+<p>Una temperatura bassa, però, non garantisce che ogni risposta sia vera. Il modello può comunque sbagliare se non possiede informazioni sufficienti, interpreta male la richiesta o utilizza conoscenze incomplete.</p>
 <h3>🔥 Temperatura alta: più varietà e creatività</h3>
-<p>
-Con una temperatura alta, gli spicchi più piccoli diventano relativamente più grandi. Il modello ha quindi maggiori possibilità di scegliere parole meno ovvie e combinazioni meno prevedibili.
-</p>
-<p>
-In questo contesto, <strong>creatività</strong> non significa che l’IA abbia fantasia, emozioni o ispirazione come una persona. Significa che il modello esplora un numero maggiore di continuazioni possibili e combina in modo nuovo schemi, parole e idee che ha imparato durante l’addestramento.
-</p>
-<p>
-Una temperatura più alta può essere utile per:
-</p>
+<p>Con una temperatura alta, gli spicchi più piccoli diventano relativamente più grandi. Il modello ha quindi maggiori possibilità di scegliere parole meno ovvie e combinazioni meno prevedibili.</p>
+<p>In questo contesto, <strong>creatività</strong> non significa che l’IA abbia fantasia, emozioni o ispirazione come una persona. Significa che il modello esplora un numero maggiore di continuazioni possibili e combina in modo nuovo schemi, parole e idee che ha imparato durante l’addestramento.</p>
+<p>Una temperatura più alta può essere utile per:</p>
 <ul>
 <li>inventare storie e personaggi;</li>
 <li>proporre titoli o slogan;</li>
@@ -1971,19 +1969,11 @@ Una temperatura più alta può essere utile per:
 <li>trovare metafore e modi originali di spiegare un concetto;</li>
 <li>esplorare soluzioni alternative durante una fase di brainstorming.</li>
 </ul>
-<p>
-Il vantaggio è una maggiore varietà. Lo svantaggio è che il modello può scegliere anche continuazioni meno appropriate, meno coerenti o meno accurate.
-</p>
+<p>Il vantaggio è una maggiore varietà. Lo svantaggio è che il modello può scegliere anche continuazioni meno appropriate, meno coerenti o meno accurate.</p>
 <h3>🎭 Temperatura e allucinazioni</h3>
-<p>
-A volte l’IA produce informazioni false ma formulate in modo convincente. Questi errori vengono spesso chiamati <strong>allucinazioni</strong>.
-</p>
-<p>
-Una temperatura alta può aumentare il rischio di risposte fantasiose o poco affidabili, perché rende più probabili anche alternative meno sicure. Tuttavia, la temperatura non è l’unica causa delle allucinazioni.
-</p>
-<p>
-Il modello può inventare o confondere informazioni anche quando:
-</p>
+<p>A volte l’IA produce informazioni false ma formulate in modo convincente. Questi errori vengono spesso chiamati <strong>allucinazioni</strong>.</p>
+<p>Una temperatura alta può aumentare il rischio di risposte fantasiose o poco affidabili, perché rende più probabili anche alternative meno sicure. Tuttavia, la temperatura non è l’unica causa delle allucinazioni.</p>
+<p>Il modello può inventare o confondere informazioni anche quando:</p>
 <ul>
 <li>non conosce realmente la risposta;</li>
 <li>i dati appresi erano incompleti o contraddittori;</li>
@@ -1991,9 +1981,7 @@ Il modello può inventare o confondere informazioni anche quando:
 <li>gli viene chiesto di rispondere comunque;</li>
 <li>non può controllare la risposta usando fonti o strumenti esterni.</li>
 </ul>
-<p>
-Per questo è importante distinguere tra due attività:
-</p>
+<p>Per questo è importante distinguere tra due attività:</p>
 <ul>
 <li><strong>creare idee</strong>, dove una certa libertà può essere utile;</li>
 <li><strong>fornire fatti</strong>, dove servono precisione, fonti e verifiche.</li>
@@ -2002,13 +1990,11 @@ Per questo è importante distinguere tra due attività:
 <span class="box-title">🧭 La regola da ricordare</span>
 Una temperatura alta può essere utile per esplorare possibilità e produrre idee originali, ma non rende vere le informazioni generate. Quando la risposta riguarda fatti, date, salute, sicurezza o decisioni importanti, bisogna sempre controllarla.
 </div>
-<h3>🎡 Osserva la ruota</h3>
-<p>
-Muovi la barra della temperatura e osserva come cambiano gli spicchi. Con una temperatura bassa, la parola più probabile occuperà quasi tutta la ruota. Aumentando la temperatura, anche le alternative avranno più spazio e potranno essere estratte più spesso.
-</p>
-<p>
-La ruota mostra quindi il compromesso tra <strong>prevedibilità</strong> e <strong>varietà</strong>: non esiste una temperatura sempre migliore, perché la scelta dipende dallo scopo della richiesta.
-</p>
+</div>
+</details>
+<h2>🎡 Osserva la ruota</h2>
+<p>Muovi la barra della temperatura e osserva come cambiano gli spicchi. Con una temperatura bassa, la parola più probabile occuperà quasi tutta la ruota. Aumentando la temperatura, anche le alternative avranno più spazio e potranno essere estratte più spesso.</p>
+<p>La ruota mostra quindi il compromesso tra <strong>prevedibilità</strong> e <strong>varietà</strong>: non esiste una temperatura sempre migliore, perché la scelta dipende dallo scopo della richiesta.</p>
 <div class="demo-panel">
 <h2>🌡️ Sposta il cursore della temperatura e osserva la ruota</h2>
 <p>Completiamo: <em>«Fuori piove e il cane si ripara nella...»</em></p>

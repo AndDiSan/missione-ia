@@ -1418,6 +1418,193 @@
         grid-template-columns: 1fr;
       }
     }
+
+
+    /* Simulazione didattica: tre modelli allenati in modo diverso */
+    .training-model-question {
+      margin: 1rem 0;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      background: var(--surface);
+      font-size: 1.05rem;
+    }
+
+    .training-model-scale {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .training-model-scale span:first-child {
+      text-align: left;
+    }
+
+    .training-model-scale span:last-child {
+      text-align: right;
+    }
+
+    .training-model-status {
+      margin: 1rem 0;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 1rem;
+      background: var(--primary-soft);
+    }
+
+    .training-model-status p {
+      margin-bottom: 0;
+    }
+
+    .training-model-badge {
+      display: inline-block;
+      margin-bottom: 0.45rem;
+      border-radius: 999px;
+      padding: 0.3rem 0.7rem;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 900;
+    }
+
+    .training-clues {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin: 0.75rem 0 1.15rem;
+    }
+
+    .training-clue {
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      padding: 0.45rem 0.75rem;
+      background: var(--surface);
+      color: var(--muted);
+      font-weight: 800;
+      opacity: 0.48;
+      transition: opacity 180ms ease, transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .training-clue.active {
+      border-color: var(--success);
+      background: var(--success-soft);
+      color: var(--text);
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    .training-model-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.9fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .training-probability-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .training-probability-item {
+      display: grid;
+      grid-template-columns: minmax(105px, 150px) minmax(0, 1fr) 54px;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .training-probability-fill {
+      height: 100%;
+      transition: width 260ms ease;
+    }
+
+    .training-probability-item[data-training-answer="mangiare"] .training-probability-fill {
+      background: var(--primary);
+    }
+
+    .training-probability-item[data-training-answer="giocare"] .training-probability-fill {
+      background: var(--accent);
+    }
+
+    .training-probability-item[data-training-answer="passeggiata"] .training-probability-fill {
+      background: var(--success);
+    }
+
+    .training-answer-box {
+      min-height: 190px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 0.65rem;
+      border: 3px solid var(--primary);
+      border-radius: 18px;
+      padding: 1.15rem;
+      background: var(--surface);
+      text-align: center;
+      transition: border-color 220ms ease, background 220ms ease;
+    }
+
+    .training-answer-box[data-current-answer="mangiare"] {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .training-answer-box[data-current-answer="giocare"] {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .training-answer-box[data-current-answer="passeggiata"] {
+      border-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .training-answer-icon {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    .training-answer-text {
+      margin: 0;
+      font-size: 1.08rem;
+      font-weight: 800;
+    }
+
+    .training-token-guide {
+      margin: 0.7rem 0 0;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .training-token-guide code {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 0.15rem 0.45rem;
+      background: var(--surface);
+      color: var(--primary-dark);
+      font-weight: 900;
+    }
+
+    @media (max-width: 760px) {
+      .training-model-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .training-probability-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .training-model-scale {
+        font-size: 0.78rem;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -1919,6 +2106,78 @@
 <span class="box-title">🔎 Perché dobbiamo verificare?</span>
           Un testo scritto bene non è automaticamente vero. La forma linguistica e la correttezza dei fatti sono due cose diverse. Studiare ci permette di riconoscere quando la risposta non torna.
         </div>
+
+<h2>🐕 Tre modelli, tre risposte: che cosa hanno imparato?</h2>
+<p>Immaginiamo di allenare tre modelli simili usando esempi diversi. Tutti leggono la stessa domanda, ma i loro pesi non sono regolati nello stesso modo. Per questo attribuiscono un'importanza diversa agli indizi e possono prevedere continuazioni differenti.</p>
+<div class="demo-panel" id="trainingModelSimulator">
+<h2>🎚️ Confronta tre modelli allenati in modo diverso</h2>
+<div class="training-model-question">
+<strong>Domanda:</strong> «Il cane di Dorotea è fermo davanti alla porta con il guinzaglio in bocca. Che cosa vuole probabilmente?»
+</div>
+<label for="trainingModelSlider">Scegli quanto il modello ha imparato a collegare gli indizi specifici della scena:</label>
+<input aria-describedby="trainingModelHelp" id="trainingModelSlider" max="100" min="0" step="50" type="range" value="50"/>
+<div aria-hidden="true" class="training-model-scale">
+<span>Modello A<br/>associazioni generiche</span>
+<span>Modello B<br/>un indizio riconosciuto</span>
+<span>Modello C<br/>indizi collegati</span>
+</div>
+<p class="sr-only" id="trainingModelHelp">Il cursore ha tre posizioni: Modello A, Modello B e Modello C.</p>
+<div aria-live="polite" class="training-model-status">
+<span class="training-model-badge" id="trainingModelBadge">Modello B</span>
+<strong id="trainingModelTitle">Riconosce un indizio, ma non tutta la scena</strong>
+<p id="trainingModelDescription">Il modello nota il guinzaglio in bocca, ma lo interpreta soprattutto come un oggetto con cui giocare.</p>
+</div>
+<h3>🔍 Quali indizi stanno contando di più?</h3>
+<div aria-label="Indizi considerati dal modello" class="training-clues">
+<span class="training-clue active" data-training-clue="cane">🐕 cane</span>
+<span class="training-clue" data-training-clue="porta">🚪 davanti alla porta</span>
+<span class="training-clue active" data-training-clue="guinzaglio">🦮 guinzaglio</span>
+<span class="training-clue active" data-training-clue="bocca">👄 in bocca</span>
+</div>
+<div class="training-model-grid">
+<div>
+<h3>📊 Probabilità delle tre continuazioni</h3>
+<div aria-live="polite" class="training-probability-list">
+<div class="training-probability-item" data-training-answer="mangiare">
+<strong>🍽️ mangiare</strong>
+<div class="bar-track"><div class="training-probability-fill" data-training-probability="mangiare"></div></div>
+<span data-training-probability-value="mangiare">18%</span>
+</div>
+<div class="training-probability-item" data-training-answer="giocare">
+<strong>🎾 giocare</strong>
+<div class="bar-track"><div class="training-probability-fill" data-training-probability="giocare"></div></div>
+<span data-training-probability-value="giocare">47%</span>
+</div>
+<div class="training-probability-item" data-training-answer="passeggiata">
+<strong>🦮 uscire</strong>
+<div class="bar-track"><div class="training-probability-fill" data-training-probability="passeggiata"></div></div>
+<span data-training-probability-value="passeggiata">35%</span>
+</div>
+</div>
+</div>
+<div>
+<h3>💬 Risposta prevista</h3>
+<div aria-live="polite" class="training-answer-box" data-current-answer="giocare" id="trainingAnswerBox">
+<span aria-hidden="true" class="training-answer-icon" id="trainingAnswerIcon">🎾</span>
+<p class="training-answer-text" id="trainingAnswerText">Il cane vuole giocare con il guinzaglio insieme a Dorotea.</p>
+</div>
+<p class="training-token-guide">Continuazione guida: <code id="trainingTokenGuide">giocare</code></p>
+</div>
+</div>
+</div>
+<details>
+<summary>🔬 Approfondimento: che cosa rappresenta davvero lo slider?</summary>
+<div>
+<p>Questa è una <strong>simulazione didattica</strong>. In un modello reale non esiste una sola manopola che trasforma direttamente «mangiare» in «giocare» o «uscire». Esistono moltissimi pesi distribuiti nelle matrici del Transformer.</p>
+<p>Durante l'allenamento, gli esempi e la correzione degli errori modificano poco alla volta questi pesi. Un modello che ha imparato soprattutto l'associazione generica «cane → cibo» può dare poco valore alla porta e al guinzaglio. Un modello allenato a collegare più indizi può riconoscere lo schema completo «cane + porta + guinzaglio → passeggiata».</p>
+<p>Durante l'inferenza i pesi, normalmente, non cambiano: vengono usati per trasformare gli indizi in punteggi. La Softmax converte poi questi punteggi in probabilità. La simulazione mostra una risposta intera per rendere evidente il risultato, ma un vero modello genera la frase un token alla volta e ricalcola le probabilità dopo ogni scelta.</p>
+<p><strong>Non confondere pesi e temperatura:</strong> qui confrontiamo tre modelli con pesi appresi diversamente. Nella tappa successiva useremo invece la temperatura per modificare il modo in cui lo stesso modello sceglie fra probabilità già calcolate.</p>
+</div>
+</details>
+<div class="teacher-box">
+<span class="box-title">🧠 Lo stesso testo può produrre previsioni diverse</span>
+I modelli non diventano diversi perché «vogliono» rispondere in modo differente. Diventano diversi perché l'allenamento ha regolato le loro connessioni in modo diverso. La qualità e la varietà degli esempi usati per allenarli influenzano quindi ciò che riescono a riconoscere.
+</div>
 </section><section aria-labelledby="title-10" class="lesson" data-title="Inferenza" id="lesson-10">
 <span class="lesson-kicker">Tappa 10 · Dentro il motore · La ruota delle possibilità</span>
 <h1 id="title-10">🎡 Inferenza, Softmax e temperatura</h1>
@@ -2668,6 +2927,72 @@ Non consiste nel ricordare ogni termine tecnico. Consiste nel sapere che l'IA no
       }
       weightSlider.addEventListener("input", updateWeight);
       updateWeight();
+
+
+      const trainingModelSlider = document.getElementById("trainingModelSlider");
+      const trainingModels = [
+        {
+          badge: "Modello A",
+          title: "Si affida a un'associazione molto generica",
+          description: "Ha incontrato spesso situazioni in cui un cane aspetta il cibo e attribuisce poco peso alla porta e al guinzaglio.",
+          probabilities: { mangiare: 52, giocare: 34, passeggiata: 14 },
+          answerKey: "mangiare",
+          icon: "🍽️",
+          token: "mangiare",
+          answer: "Il cane vuole mangiare e aspetta che Dorotea riempia la sua ciotola.",
+          clues: ["cane"]
+        },
+        {
+          badge: "Modello B",
+          title: "Riconosce un indizio, ma non tutta la scena",
+          description: "Nota il guinzaglio in bocca, ma lo interpreta soprattutto come un oggetto con cui giocare.",
+          probabilities: { mangiare: 18, giocare: 47, passeggiata: 35 },
+          answerKey: "giocare",
+          icon: "🎾",
+          token: "giocare",
+          answer: "Il cane vuole giocare con il guinzaglio insieme a Dorotea.",
+          clues: ["cane", "guinzaglio", "bocca"]
+        },
+        {
+          badge: "Modello C",
+          title: "Collega tutti gli indizi della scena",
+          description: "Mette insieme il cane, la porta, il guinzaglio e il gesto di tenerlo in bocca, riconoscendo lo schema della passeggiata.",
+          probabilities: { mangiare: 5, giocare: 18, passeggiata: 77 },
+          answerKey: "passeggiata",
+          icon: "🦮",
+          token: "uscire",
+          answer: "Il cane vuole uscire per fare una passeggiata con Dorotea.",
+          clues: ["cane", "porta", "guinzaglio", "bocca"]
+        }
+      ];
+
+      function updateTrainingModelSimulation() {
+        const modelIndex = Math.round(Number(trainingModelSlider.value) / 50);
+        const model = trainingModels[Math.max(0, Math.min(trainingModels.length - 1, modelIndex))];
+
+        document.getElementById("trainingModelBadge").textContent = model.badge;
+        document.getElementById("trainingModelTitle").textContent = model.title;
+        document.getElementById("trainingModelDescription").textContent = model.description;
+        document.getElementById("trainingAnswerIcon").textContent = model.icon;
+        document.getElementById("trainingAnswerText").textContent = model.answer;
+        document.getElementById("trainingTokenGuide").textContent = model.token;
+        document.getElementById("trainingAnswerBox").dataset.currentAnswer = model.answerKey;
+        trainingModelSlider.setAttribute("aria-valuetext", `${model.badge}: ${model.title}`);
+
+        document.querySelectorAll("[data-training-clue]").forEach((clue) => {
+          clue.classList.toggle("active", model.clues.includes(clue.dataset.trainingClue));
+        });
+
+        Object.entries(model.probabilities).forEach(([key, value]) => {
+          const fill = document.querySelector(`[data-training-probability="${key}"]`);
+          const label = document.querySelector(`[data-training-probability-value="${key}"]`);
+          fill.style.width = `${value}%`;
+          label.textContent = `${value}%`;
+        });
+      }
+
+      trainingModelSlider.addEventListener("input", updateTrainingModelSimulation);
+      updateTrainingModelSimulation();
 
       const temperatureSlider = document.getElementById("temperatureSlider");
       const softmaxWheel = document.getElementById("softmaxWheel");
